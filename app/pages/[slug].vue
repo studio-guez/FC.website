@@ -1,11 +1,22 @@
 <template>
   <main class="v-slug"
   >
-
     <h1>{{data?.result.page.title}}</h1>
     <div>status: {{status}}</div>
 
-    <NuxtLink to="/">< index</NuxtLink>
+    <template v-for="block of data?.result.page.htmlcontent">
+      <iframe v-if="block.type === 'video'"
+              class="v-slug__video"
+              :src="block.content.url"
+      />
+      <div v-else-if="block.type === 'textWithTitle'"
+           v-html="block.content.text"
+      />
+    </template>
+
+    <div>
+      <NuxtLink to="/">< index</NuxtLink>
+    </div>
 
   </main>
 </template>
@@ -27,6 +38,23 @@ type FetchData = CMS_API_Response & {
     page: {
       title: string,
       slug: string,
+      htmlcontent: [
+        {
+          "content": {
+            "text": string
+          },
+          "id": string,
+          "isHidden": boolean,
+          "type": "textWithTitle"
+        },
+        {
+          "content": {
+            "url": string
+          },
+          "id": string,
+          "isHidden": boolean,
+          "type": "video"
+        }],
     }
   }
 }
@@ -41,6 +69,7 @@ const body = {
       select: {
         title: true,
         slug: true,
+        htmlcontent: `page.htmlcontent.toBlocks`,
       }
     }
   },
