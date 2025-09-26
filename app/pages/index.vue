@@ -7,8 +7,10 @@
         <template v-for="column of layout.columns">
           <div class="column">
             <template v-for="block of column.blocks">
-              <div v-if="block.type === 'text'" class="text" v-html="block.content.text"/>
-              <div v-if="block.type === 'image'" class="image" v-html="block.content.image"/>
+              <div v-if="block.type === 'text'" class="text" v-html="block.text"/>
+              <div v-if="block.type === 'image'" :class="['image', `image-corner-${block.cornerRadius}`]" :style="{color: block.color}">
+                <img :src="block.image.url" :alt="block.image.alt">
+              </div>
             </template>
           </div>
         </template>
@@ -75,7 +77,19 @@ const body = {
         layouts: {
           query: 'page.layout.toLayouts',
           select: {
-            columns: true
+            columns: {
+              query: 'layout.columns',
+              select: {
+                blocks: {
+                  query: 'layoutColumn.blocks',
+                  select: {
+                    type: true,
+                    text: 'block.text.kirbytags',
+                    image: 'block.image.toFile'
+                  }
+                }
+              }
+            }
           }
         }
       }
