@@ -2,26 +2,15 @@
   <main>
     <h1>{{data?.result.page.title}}</h1>
 
-    <template v-for="layout of data?.result.page.layouts">
-      <div class="layout">
-        <template v-for="column of layout.columns">
-          <div class="column">
-            <template v-for="block of column.blocks">
-              <div v-if="block.type === 'text'" class="text" v-html="block.text"/>
-              <div v-if="block.type === 'image'" :class="['image', `image-corner-${block.cornerRadius}`]" :style="{color: block.color}">
-                <img :src="block.image.url" :alt="block.image.alt">
-              </div>
-            </template>
+    <template v-for="section of data?.result.page.sections">
+      <section :style="{color: section.attrs.color}">
+        <template v-for="block of section.blocks">
+          <div v-if="block.type === 'text'" class="text" v-html="block.text"/>
+          <div v-if="block.type === 'image'" :class="['image', `image-corner-${block.cornerRadius}`]">
+             <img :src="block.image.url" :alt="block.image.alt">
           </div>
         </template>
-      </div>
-
-      <!-- <div v-if="block.type === 'text'" :class="block.type"
-           v-html="block.text"
-      />
-      <div v-if="block.type === 'image'" :class="[block.type, `image-corner-${block.cornerRadius}`]" :style="{color: block.color}">
-        <img :src="block.image.url" :alt="block.image.alt">
-      </div> -->
+      </section>
     </template>
 
   </main>
@@ -74,20 +63,17 @@ const body = {
       select: {
         title: true,
         slug: true,
-        layouts: {
+        sections: {
           query: 'page.layout.toLayouts',
           select: {
-            columns: {
-              query: 'layout.columns',
+            attrs: true,
+            blocks: {
+              query: 'layout.columns.first.blocks',
               select: {
-                blocks: {
-                  query: 'layoutColumn.blocks',
-                  select: {
-                    type: true,
-                    text: 'block.text.kirbytags',
-                    image: 'block.image.toFile'
-                  }
-                }
+                type: true,
+                text: 'block.text.kirbytags',
+                image: 'block.image.toFile',
+                cornerRadius: 'block.cornerRadius'
               }
             }
           }
