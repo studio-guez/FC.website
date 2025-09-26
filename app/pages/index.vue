@@ -2,13 +2,24 @@
   <main>
     <h1>{{data?.result.page.title}}</h1>
 
-    <template v-for="block of data?.result.page.htmlcontent">
-      <div v-if="block.type === 'text'" :class="block.type"
+    <template v-for="layout of data?.result.page.layouts">
+      <div class="layout">
+        <template v-for="column of layout.columns">
+          <div class="column">
+            <template v-for="block of column.blocks">
+              <div v-if="block.type === 'text'" class="text" v-html="block.content.text"/>
+              <div v-if="block.type === 'image'" class="image" v-html="block.content.image"/>
+            </template>
+          </div>
+        </template>
+      </div>
+
+      <!-- <div v-if="block.type === 'text'" :class="block.type"
            v-html="block.text"
       />
-      <div v-if="block.type === 'image'" :class="[block.type, `image-corner-${block.cornerRadius}`]">
+      <div v-if="block.type === 'image'" :class="[block.type, `image-corner-${block.cornerRadius}`]" :style="{color: block.color}">
         <img :src="block.image.url" :alt="block.image.alt">
-      </div>
+      </div> -->
     </template>
 
   </main>
@@ -61,19 +72,15 @@ const body = {
       select: {
         title: true,
         slug: true,
-        htmlcontent: {
-          query: 'page.htmlcontent.toBlocks',
+        layouts: {
+          query: 'page.layout.toLayouts',
           select: {
-            type: true,
-            text: 'block.text.kirbytags',
-            image: 'block.image.toFile',
-            color: 'block.color',
-            cornerRadius: 'block.cornerRadius'
+            columns: true
           }
-        },
+        }
       }
     }
-  },
+  }
 }
 
 const {data, status} = await useFetch<FetchData>('/api/CMS_KQLRequest', {
