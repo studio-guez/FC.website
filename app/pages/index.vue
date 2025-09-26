@@ -6,6 +6,9 @@
       <div v-if="block.type === 'text'" :class="block.type"
            v-html="block.text"
       />
+      <div v-if="block.type === 'image'" :class="[block.type, `image-corner-${block.cornerRadius}`]">
+        <img :src="block.image.url" :alt="block.image.alt">
+      </div>
     </template>
 
   </main>
@@ -37,7 +40,15 @@ type FetchData = CMS_API_Response & {
           "isHidden": boolean,
           "type": "text"
         },
-      ],
+        {
+          "content": {
+            "image": any
+          },
+          "id": string,
+          "isHidden": boolean,
+          "type": "image"
+        }
+      ]
     }
   }
 }
@@ -54,7 +65,10 @@ const body = {
           query: 'page.htmlcontent.toBlocks',
           select: {
             type: true,
-            text: 'block.text.kirbytags'
+            text: 'block.text.kirbytags',
+            image: 'block.image.toFile',
+            color: 'block.color',
+            cornerRadius: 'block.cornerRadius'
           }
         },
       }
@@ -67,6 +81,8 @@ const {data, status} = await useFetch<FetchData>('/api/CMS_KQLRequest', {
   method: 'POST',
   body: JSON.stringify(body),
 });
+
+console.log(data);
 
 
 // === [end] pour charger les data

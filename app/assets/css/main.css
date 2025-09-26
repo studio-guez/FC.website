@@ -38,3 +38,30 @@
   left: -1.8em;
   font-feature-settings: "ss01" 1;
 }
+
+.image {
+   border: 0.1rem solid;
+   overflow: hidden;
+}
+
+.image img {
+   display: block;
+   max-width: 100%;
+   height: auto;
+}
+
+.image-corner-10 {
+   border-radius: 10px;
+}
+
+.image-corner-20 {
+   border-radius: 20px;
+}
+
+.image-corner-40 {
+   border-radius: 40px;
+}
+
+.image-corner-80 {
+   border-radius: 80px;
+}
