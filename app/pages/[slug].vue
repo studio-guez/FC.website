@@ -2,14 +2,9 @@
   <main class="v-slug"
   >
     <h1>{{data?.result.page.title}}</h1>
-    <div>status: {{status}}</div>
 
     <template v-for="block of data?.result.page.htmlcontent">
-      <iframe v-if="block.type === 'video'"
-              class="v-slug__video"
-              :src="block.content.url"
-      />
-      <div v-else-if="block.type === 'textWithTitle'"
+      <div v-if="block.type === 'text'"
            v-html="block.content.text"
       />
     </template>
@@ -45,16 +40,9 @@ type FetchData = CMS_API_Response & {
           },
           "id": string,
           "isHidden": boolean,
-          "type": "textWithTitle"
+          "type": "text"
         },
-        {
-          "content": {
-            "url": string
-          },
-          "id": string,
-          "isHidden": boolean,
-          "type": "video"
-        }],
+      ],
     }
   }
 }
@@ -86,9 +74,3 @@ const {data, status} = await useFetch<FetchData>('/api/CMS_KQLRequest', {
 
 
 </script>
-
-
-<style lang="scss" scoped>
-.v-slug {
-}
-</style>
