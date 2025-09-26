@@ -7,4 +7,34 @@
 
 :root {
    font-family: 'Inter', sans-serif;
+   font-size: 20px;
+}
+
+.icon {
+   width: 1em;
+   height: auto;
+   overflow: visible
+}
+
+.text ul {
+   list-style: "→ ";
+   padding-left: 1.035em;
+}
+
+.text ol {
+  list-style: none;
+  counter-reset: custom-counter;
+  padding-left: 1.8em;
+}
+
+.text ol li {
+  counter-increment: custom-counter;
+  position: relative;
+}
+
+.text ol li::before {
+  content: counter(custom-counter);
+  position: absolute;
+  left: -1.8em;
+  font-feature-settings: "ss01" 1;
 }
