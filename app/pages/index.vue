@@ -1,13 +1,13 @@
 <template>
-  <main class="v-index"
-  >
-    <h1>index</h1>
-    <div>status: {{status}}</div>
-    <h2>liste des pages</h2>
-    <div v-for="page of data?.result.children">
-      {{page.title}}
-      <NuxtLink :to="page.slug">lien</NuxtLink>
-    </div>
+  <main>
+    <h1>{{data?.result.page.title}}</h1>
+
+    <template v-for="block of data?.result.page.htmlcontent">
+      <div v-if="block.type === 'text'" :class="block.type"
+           v-html="block.text"
+      />
+    </template>
+
   </main>
 </template>
 
@@ -25,42 +25,51 @@
  */
 type FetchData = CMS_API_Response & {
   result: {
-    children: {
+    page: {
       title: string,
       slug: string,
-    }[]
+      htmlcontent: [
+        {
+          "content": {
+            "text": string
+          },
+          "id": string,
+          "isHidden": boolean,
+          "type": "text"
+        },
+      ],
+    }
   }
 }
 
-const slug = useRouter().currentRoute.value.params.slug
-
 const body = {
-    query: 'site',
-    select: {
-        children: {
-            query: `site.children()`,
-            select: {
-                title: true,
-                slug: true,
-            }
-        }
-    },
+  query: 'site',
+  select: {
+    page: {
+      query: 'site.find("home")',
+      select: {
+        title: true,
+        slug: true,
+        htmlcontent: {
+          query: 'page.htmlcontent.toBlocks',
+          select: {
+            type: true,
+            text: 'block.text.kirbytags'
+          }
+        },
+      }
+    }
+  },
 }
 
 const {data, status} = await useFetch<FetchData>('/api/CMS_KQLRequest', {
   lazy: true,
   method: 'POST',
   body: JSON.stringify(body),
-})
+});
 
 
 // === [end] pour charger les data
 
 
 </script>
-
-
-<style lang="scss" scoped>
-.v-index {
-}
-</style>
