@@ -5,7 +5,7 @@
 
     <template v-for="block of data?.result.page.htmlcontent">
       <div v-if="block.type === 'text'"
-           v-html="block.content.text"
+           v-html="block.text"
       />
     </template>
 
@@ -57,7 +57,13 @@ const body = {
       select: {
         title: true,
         slug: true,
-        htmlcontent: `page.htmlcontent.toBlocks`,
+        htmlcontent: {
+          query: 'page.htmlcontent.toBlocks',
+          select: {
+            type: true,
+            text: 'block.text.kirbytags'
+          }
+        },
       }
     }
   },
@@ -67,7 +73,9 @@ const {data, status} = await useFetch<FetchData>('/api/CMS_KQLRequest', {
   lazy: true,
   method: 'POST',
   body: JSON.stringify(body),
-})
+});
+
+console.log(data);
 
 
 // === [end] pour charger les data
