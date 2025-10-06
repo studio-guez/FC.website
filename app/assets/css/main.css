@@ -8,6 +8,36 @@
 :root {
    font-family: 'Inter', sans-serif;
    font-size: 20px;
+   --site-margin: 0.75rem
+}
+
+body {
+   padding: var(--site-margin);
+}
+
+.site-header {
+   position: fixed;
+   top: var(--site-margin);
+   left: var(--site-margin);
+   writing-mode: sideways-lr;
+   display: flex;
+   justify-content: space-between;
+   box-sizing: border-box;
+   height: calc(100% - var(--site-margin)*2);
+}
+
+.site-header .icon-logo-fc {
+   transform: translate(-32.5%, 77%) rotate(-90deg);
+   height: 2rem;
+   width: auto;
+}
+
+.site-main {
+   margin-left: 7rem;
+}
+
+.section {
+   margin-bottom: 2rem;
 }
 
 .icon {
@@ -16,6 +46,28 @@
    width: 1em;
    height: auto;
    overflow: visible
+}
+
+.text h2 {
+   font-size: 60px;
+   text-decoration: underline;
+   margin-bottom: 1rem;
+}
+
+.text h3 {
+   font-size: 40px;
+   margin-bottom: 1rem;
+}
+
+.text h4 {
+   font-size: 34px;
+   margin-bottom: 1rem;
+}
+
+.text p,
+.text ul,
+.text ol {
+   margin-bottom: 1rem;
 }
 
 .text ul {
@@ -61,7 +113,7 @@
 
 .image img {
    display: block;
-   max-width: 100%;
+   width: 100%;
    height: auto;
 }
 
