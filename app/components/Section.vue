@@ -10,10 +10,10 @@
    const props = defineProps(['id']);
 
    const body = {
-      query: 'site.find("home")',
+      query: 'site',
       select: {
          sections: {
-            query: `page.${props.id}_layout.toLayouts`,
+            query: `site.${props.id}_layout.toLayouts`,
             select: {
                attrs: true,
                blocks: {

@@ -1,6 +1,6 @@
 <template>
-   <header class="site-header" :style="{color: data?.result.page.header_color}">
-      <div v-html="data?.result.page.header"></div>
+   <header class="site-header" :style="{color: data?.result.header_color}">
+      <div v-html="data?.result.header"></div>
       <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon icon-logo-fc" viewBox="0 0 42.14 16"><path  d="M0 0v16h17.74l-7.02-7.69L17.74 0zm8.25 5.14H4.61v2.24h3.06v1.34H4.61v3.68H3V3.79h5.25v1.34ZM22.91 0l7.02 7.69L22.91 16h19.23V0zm12.58 12.58c-2.12 0-3.57-1.84-3.57-4.53s1.45-4.43 3.57-4.43c1.64 0 2.9 1.06 3.24 2.71l-1.59.5c-.13-1.14-.77-1.87-1.65-1.87-1.15 0-1.88 1.21-1.88 3.11s.73 3.14 1.88 3.14c.96 0 1.63-.87 1.74-2.24l1.63.47c-.26 1.92-1.61 3.14-3.37 3.14"/></svg>
    </header>
 </template>
@@ -9,14 +9,9 @@
    const body = {
       query: 'site',
       select: {
-         page: {
-            query: 'site.find("home")',
-            select: {
-               header: true,
-               header_color: true,
-             }
+         header: true,
+         header_color: true,
          }
-      }
    }
 
    const {data, status} = await useFetch('/api/CMS_KQLRequest', {
