@@ -1,8 +1,6 @@
 <template>
    <section :id="props.id">
-      <div v-for="section of data?.result.sections">
-         <Blocks :blocks="section.blocks" />
-      </div>
+      <Blocks :blocks="data?.result" />
    </section>
 </template>
 
@@ -10,35 +8,22 @@
    const props = defineProps(['id']);
 
    const body = {
-      query: 'site',
+      query: `site.${props.id}_layout.toBlocks`,
       select: {
-         sections: {
-            query: `site.${props.id}_layout.toLayouts`,
-            select: {
-               attrs: true,
-               blocks: {
-                  query: 'layout.columns.first.blocks',
-                  select: {
-                     type: true,
-                     color: true,
-                     label: true,
-                     url: true,
-                     text: 'block.text.kirbytags',
-                     image: 'block.image.toFile',
-                     file: 'block.file.toFile',
-                     cornerRadius: 'block.cornerRadius'
-                  }
-               }
-            }
-         }
+         type: true,
+         color: true,
+         label: true,
+         url: true,
+         text: 'block.text.kirbytags',
+         image: 'block.image.toFile',
+         file: 'block.file.toFile',
+         cornerRadius: 'block.cornerRadius'
       }
    }
 
-   const {data, status} = await useFetch('/api/CMS_KQLRequest', {
+   let {data} = await useFetch('/api/CMS_KQLRequest', {
       lazy: true,
       method: 'POST',
       body: JSON.stringify(body),
    });
-
-   console.log(data);
 </script>
