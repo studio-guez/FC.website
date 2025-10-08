@@ -21,8 +21,11 @@
                   select: {
                      type: true,
                      color: true,
+                     label: true,
+                     url: true,
                      text: 'block.text.kirbytags',
                      image: 'block.image.toFile',
+                     file: 'block.file.toFile',
                      cornerRadius: 'block.cornerRadius'
                   }
                }
@@ -36,4 +39,6 @@
       method: 'POST',
       body: JSON.stringify(body),
    });
+
+   console.log(data);
 </script>

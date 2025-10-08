@@ -36,6 +36,10 @@ body {
    margin-left: 7rem;
 }
 
+.mb-1 {
+   margin-bottom: 1rem;
+}
+
 .mb-2 {
    margin-bottom: 2rem;
 }
@@ -97,7 +101,6 @@ h4 {
    position: relative;
    border: 0.1rem solid;
    overflow: hidden;
-   margin-bottom: 1rem;
 }
 
 .image::after {
@@ -148,4 +151,19 @@ h4 {
 
 .split-scroll > * {
    overflow-y: scroll
+}
+
+.file a,
+.link a {
+   text-decoration: none
+}
+
+.file a::before {
+   content: "";
+   margin-right: 0.5em
+}
+
+.link a:before {
+   content: "";
+   margin-right: 0.5em
 }
