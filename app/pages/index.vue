@@ -17,7 +17,7 @@
       query: 'site',
       select: {
          title: true,
-         }
+      }
    }
 
    const {data, status} = await useFetch('/api/CMS_KQLRequest', {
