@@ -1,5 +1,5 @@
 <template>
-   <section :id="props.id">
+   <section :id="props.id" class="mb-2">
       <Blocks :blocks="data?.result" />
    </section>
 </template>

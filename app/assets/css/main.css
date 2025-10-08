@@ -36,11 +36,11 @@ body {
    margin-left: 7rem;
 }
 
-.mb-1 {
+.mb-1:not(:last-child) {
    margin-bottom: 1rem;
 }
 
-.mb-2 {
+.mb-2:not(:last-child) {
    margin-bottom: 2rem;
 }
 
@@ -151,6 +151,14 @@ h4 {
 
 .split-scroll > * {
    overflow-y: scroll
+}
+
+@media (max-width: 1024px) {
+   .split-scroll {
+      display: block;
+      overflow: initial;
+      max-height: initial;
+   }
 }
 
 .file a,
