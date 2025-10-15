@@ -158,7 +158,8 @@ h4 {
 }
 
 .split-scroll > * {
-   overflow-y: scroll
+   overflow-y: scroll;
+   max-height: 100vh;
 }
 
 @media (max-width: 1024px) {
