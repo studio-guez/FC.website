@@ -47,8 +47,8 @@ body {
 .icon {
    position: relative;
    top: 0.075em;
-   width: 1em;
-   height: auto;
+   height: 1em;
+   width: auto;
    overflow: visible
 }
 
