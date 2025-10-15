@@ -7,7 +7,7 @@
 
 :root {
    font-family: 'Inter', sans-serif;
-   font-size: 20px;
+   font-size: 22px;
    --site-margin: 0.75rem
 }
 
@@ -53,18 +53,18 @@ body {
 }
 
 h2 {
-   font-size: 60px;
+   font-size: 3rem;
    text-decoration: underline;
    margin-bottom: 1rem;
 }
 
 h3 {
-   font-size: 40px;
+   font-size: 2rem;
    margin-bottom: 1rem;
 }
 
 h4 {
-   font-size: 34px;
+   font-size: 1rem;
    margin-bottom: 1rem;
 }
 
