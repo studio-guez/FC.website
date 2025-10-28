@@ -32,17 +32,16 @@
       const splitScrollSection = document.querySelector('.split-scroll');
       const splitScrollColumns = document.querySelectorAll('.split-scroll > *');
 
-      window.addEventListener('wheel', (e) => {
+      document.addEventListener('wheel', (e) => {
+         e.preventDefault();
+
          const originalColumn = e.target.closest('.split-scroll > .section');
          const col = activeColumn() ?? originalColumn;
          const sectionPos = splitScrollSection.getBoundingClientRect();
+         let delta = e.deltaY;
 
-         if (e.deltaY > sectionPos.top && e.deltaY > 0) {   
-            let delta = e.deltaY;
-
+         if (delta > sectionPos.top && delta > 0) {   
             if (col) {
-               disableMainScroll();
-
                if (sectionPos.top > 0) {
                   window.scrollBy(0, sectionPos.top);
                   delta -= sectionPos.top;
@@ -50,23 +49,20 @@
             
                const leftToScroll = col.scrollHeight - col.scrollTop - window.innerHeight;
 
-               if (e.deltaY > leftToScroll) {
-                  enableMainScroll();
+               if (delta > leftToScroll) {
                   col.scrollBy(0, leftToScroll);
                   delta -= leftToScroll;
-                  window.scrollBy(0, e.deltaY);
+                  window.scrollBy(0, delta);
+                  delta = 0;
                }
 
-               col.scrollBy(0, e.deltaY);
+               col.scrollBy(0, delta);
+               delta = 0;
             }
          }
 
-         else if (e.deltaY < sectionPos.top && e.deltaY < 0) {
-            let delta = e.deltaY;
-
+         if (delta < sectionPos.top && delta< 0) {
             if (col) {
-               disableMainScroll();
-
                if (sectionPos.top < 0) {
                   window.scrollBy(0, sectionPos.top);
                   delta -= sectionPos.top;
@@ -75,21 +71,20 @@
                const leftToScroll = col.scrollTop;
 
                if (delta < -leftToScroll) {
-                  enableMainScroll();
                   col.scrollBy(0, leftToScroll);
                   delta -= leftToScroll;
                   window.scrollBy(0, delta);
+                  delta = 0;
                }
 
-               col.scrollBy(0, delta);  
+               col.scrollBy(0, delta);
+               delta = 0;
             }
          }
 
-         else {
-            enableMainScroll();
-         }
+         window.scrollBy(0, delta);
 
-      });
+      }, {passive: false});
 
       const activeColumn = (function() {
          const activeColumns = Array(splitScrollColumns.length);
