@@ -31,87 +31,96 @@
    onMounted(() => {
       const splitScrollSection = document.querySelector('.split-scroll');
       const splitScrollColumns = document.querySelectorAll('.split-scroll > *');
+      const thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
 
       window.addEventListener('wheel', (e) => {
-         const originalColumn = e.target.closest('.split-scroll > .section');
-         const col = activeColumn() ?? originalColumn;
-         const sectionPos = splitScrollSection.getBoundingClientRect();
+         e.preventDefault();
 
-         if (e.deltaY > sectionPos.top && e.deltaY > 0) {   
-            let delta = e.deltaY;
-
-            if (col) {
-               disableMainScroll();
-
-               if (sectionPos.top > 0) {
-                  window.scrollBy(0, sectionPos.top);
-                  delta -= sectionPos.top;
-               }
+         const activeCol = e.clientX < thresholdX ? splitScrollColumns.item(0) : splitScrollColumns.item(1);
+         const targetCol = e.target.closest('.split-scroll .section');
+         const sectionTop = splitScrollSection.offsetTop - window.scrollY;
+         let delta = e.deltaY;
+         
+         // Going down
+         if (e.deltaY > sectionTop && e.deltaY > 0) {   
             
-               const leftToScroll = col.scrollHeight - col.scrollTop - window.innerHeight;
-
-               if (e.deltaY > leftToScroll) {
-                  enableMainScroll();
-                  col.scrollBy(0, leftToScroll);
-                  delta -= leftToScroll;
-                  window.scrollBy(0, e.deltaY);
-               }
-
-               col.scrollBy(0, e.deltaY);
+            if (sectionTop > 0) {
+               window.scrollBy(0, sectionTop);
+               delta -= sectionTop;
             }
-         }
+         
+            const leftToScroll = activeCol.scrollHeight - activeCol.scrollTop - window.innerHeight;
 
-         else if (e.deltaY < sectionPos.top && e.deltaY < 0) {
-            let delta = e.deltaY;
+            if (e.deltaY > leftToScroll) {
+               activeCol.scrollBy(0, leftToScroll);
+               delta -= leftToScroll;
+               window.scrollBy(0, delta);
+               delta = 0;
+            }
 
-            if (col) {
-               disableMainScroll();
-
-               if (sectionPos.top < 0) {
-                  window.scrollBy(0, sectionPos.top);
-                  delta -= sectionPos.top;
-               }
+            activeCol.scrollBy(0, delta);
+            delta = 0;
             
-               const leftToScroll = col.scrollTop;
+         }
 
-               if (delta < -leftToScroll) {
-                  enableMainScroll();
-                  col.scrollBy(0, leftToScroll);
-                  delta -= leftToScroll;
-                  window.scrollBy(0, delta);
+         // Going up
+         if (e.deltaY < 0) {
+
+            if (sectionTop < 0) {
+               console.log(sectionTop, e.deltaY);
+               window.scrollBy(0, Math.max(sectionTop, e.deltaY));
+               return;
+            }
+
+            if (sectionTop == 0) {
+               activeCol.scrollBy(0, e.deltaY);
+               const overflow = e.deltaY + activeCol.scrollTop;
+               if (overflow < 0) {
+                  activeCol.scrollBy(0, -activeCol.scrollTop);
+                  window.scrollBy(0, overflow);
                }
+               return;  
+            }
 
-               col.scrollBy(0, delta);  
+            if (sectionTop > 0) {
+               let delta = e.deltaY;
+               if (window.scrollY < 300 && e.deltaY < 0) {
+                  delta = delta/6 + delta / (300/window.scrollY);  
+               }
+               console.log(delta);
+               window.scrollBy(0, delta);
+               return;
             }
          }
 
-         else {
-            enableMainScroll();
-         }
+         // // Going up
+         // if (e.deltaY < sectionTop && e.deltaY < 0) {
 
-      });
+         //    if (sectionTop < 0) {
+         //       window.scrollBy(0, sectionTop);
+         //       delta -= sectionTop;
+         //    }
+         
+         //    const leftToScroll = activeCol.scrollTop;
 
-      const activeColumn = (function() {
-         const activeColumns = Array(splitScrollColumns.length);
-         splitScrollColumns.forEach((column, i) => {
-            column.addEventListener('mouseenter', () => {
-               activeColumns[i] = true;
-            });
-            column.addEventListener('mouseleave', () => {
-               activeColumns[i] = false;
-            });
-         });
+         //    if (delta < -leftToScroll) {
+         //       activeCol.scrollBy(0, leftToScroll);
+         //       delta -= leftToScroll;
+         //       window.scrollBy(0, delta);
+         //       delta = 0;
+         //    } else {
+         //       activeCol.scrollBy(0, delta);  
+         //       delta = 0;
+         //    }         
+         // }
 
-         return function() {
-            const activeColumnIdx = activeColumns.indexOf(true);
+         // if (window.scrollY < 300 && e.deltaY < 0) {
+         //    delta = delta / (300/window.scrollY);  
+         // }
+         
+         window.scrollBy(0, delta);
 
-            if (activeColumnIdx === -1) {
-               return null;
-            } else {
-               return splitScrollColumns.item(activeColumnIdx);
-            }
-         }
-      })();
+      }, {passive: false});
 
       function disableMainScroll() {
          document.body.classList.add('no-scroll');
