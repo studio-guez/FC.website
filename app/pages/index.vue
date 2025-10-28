@@ -31,12 +31,12 @@
    onMounted(() => {
       const splitScrollSection = document.querySelector('.split-scroll');
       const splitScrollColumns = document.querySelectorAll('.split-scroll > *');
+      const thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
 
       document.addEventListener('wheel', (e) => {
          e.preventDefault();
 
-         const originalColumn = e.target.closest('.split-scroll > .section');
-         const col = activeColumn() ?? originalColumn;
+         const col = e.clientX < thresholdX ? splitScrollColumns.item(0) : splitScrollColumns.item(1);
          const sectionPos = splitScrollSection.getBoundingClientRect();
          let delta = e.deltaY;
 
@@ -85,28 +85,6 @@
          window.scrollBy(0, delta);
 
       }, {passive: false});
-
-      const activeColumn = (function() {
-         const activeColumns = Array(splitScrollColumns.length);
-         splitScrollColumns.forEach((column, i) => {
-            column.addEventListener('mouseenter', () => {
-               activeColumns[i] = true;
-            });
-            column.addEventListener('mouseleave', () => {
-               activeColumns[i] = false;
-            });
-         });
-
-         return function() {
-            const activeColumnIdx = activeColumns.indexOf(true);
-
-            if (activeColumnIdx === -1) {
-               return null;
-            } else {
-               return splitScrollColumns.item(activeColumnIdx);
-            }
-         }
-      })();
 
       function disableMainScroll() {
          document.body.classList.add('no-scroll');
