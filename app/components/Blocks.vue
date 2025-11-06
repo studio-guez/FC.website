@@ -10,6 +10,9 @@
       <div v-if="block.type === 'link'" class="link mb-1" :style="{color: block.color}">
          <a :href="block.url" target="_blank">{{ block.label }}</a>
       </div>
+      <div v-if="block.type === 'newsletter'" class="newsletter mb-1" :style="{color: block.color}">
+         <Inscription/>
+      </div>
    </template>
 </template>
 

@@ -9,7 +9,6 @@
          <Section id="objects" />
       </div>
       <Section id="outro" />
-      <Inscription/>
 	</main>
 </template>
 
