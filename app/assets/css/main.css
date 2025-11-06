@@ -19,6 +19,10 @@ body.no-scroll {
    overflow-y: hidden;
 }
 
+a:hover {
+   opacity: 0.6;
+}
+
 .site-header {
    position: fixed;
    top: var(--site-margin);
