@@ -36,8 +36,10 @@
       window.addEventListener('wheel', (e) => {
          e.preventDefault();
 
+         // Currently hovered column
          const activeCol = e.clientX < thresholdX ? splitScrollColumns.item(0) : splitScrollColumns.item(1);
-         const targetCol = e.target.closest('.split-scroll .section');
+
+         // const targetCol = e.target.closest('.split-scroll .section');
          const sectionTop = splitScrollSection.offsetTop - window.scrollY;
          let delta = e.deltaY;
          
@@ -67,7 +69,6 @@
          if (e.deltaY < 0) {
 
             if (sectionTop < 0) {
-               console.log(sectionTop, e.deltaY);
                window.scrollBy(0, Math.max(sectionTop, e.deltaY));
                return;
             }
@@ -92,31 +93,6 @@
                return;
             }
          }
-
-         // // Going up
-         // if (e.deltaY < sectionTop && e.deltaY < 0) {
-
-         //    if (sectionTop < 0) {
-         //       window.scrollBy(0, sectionTop);
-         //       delta -= sectionTop;
-         //    }
-         
-         //    const leftToScroll = activeCol.scrollTop;
-
-         //    if (delta < -leftToScroll) {
-         //       activeCol.scrollBy(0, leftToScroll);
-         //       delta -= leftToScroll;
-         //       window.scrollBy(0, delta);
-         //       delta = 0;
-         //    } else {
-         //       activeCol.scrollBy(0, delta);  
-         //       delta = 0;
-         //    }         
-         // }
-
-         // if (window.scrollY < 300 && e.deltaY < 0) {
-         //    delta = delta / (300/window.scrollY);  
-         // }
          
          window.scrollBy(0, delta);
 
