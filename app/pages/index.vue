@@ -3,16 +3,18 @@
     <Title>{{ data?.result.title }}</Title>
   </Head>
 	<main class="site-main">
-		<Section id="intro" />
-		<div class="split-scroll mb-2">
-			<Section id="experiences" />
-			<Section id="objects" />
-		</div>
-		<Section id="outro" />
+      <Section id="intro" />
+      <div class="split-scroll mb-2">
+         <Section id="experiences" />
+         <Section id="objects" />
+      </div>
+      <Section id="outro" />
 	</main>
 </template>
 
 <script setup lang="ts">
+   import 'overlayscrollbars/overlayscrollbars.css';
+   import { useOverlayScrollbars } from "overlayscrollbars-vue";
    import { onMounted } from 'vue'
 
    const body = {
@@ -28,16 +30,57 @@
       body: JSON.stringify(body),
    });
 
+   const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] =
+   useOverlayScrollbars({
+      defer: true,
+      options: {
+         scrollbars: {
+            theme: 'body',
+            clickScroll: true,
+         },
+      },
+   });
+
+   
+
+
    onMounted(() => {
       const splitScrollSection = document.querySelector('.split-scroll');
       const splitScrollColumns = document.querySelectorAll('.split-scroll > *');
+      const scrollbarInstances = [];
       const thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
+
+      initBodyOverlayScrollbars(document.body);
+
+      splitScrollColumns.forEach(col => {
+         const [initColOverlayScrollbars, getColOverlayScrollbarsInstance] =
+         useOverlayScrollbars({
+            defer: true,
+            options: {
+               elements: {
+                  viewport: splitScrollSection
+               },
+               scrollbars: {
+                  theme: 'section',
+                  clickScroll: true,
+               },
+            },
+         });
+
+         initColOverlayScrollbars(col);
+         scrollbarInstances.push(getColOverlayScrollbarsInstance);
+      });
+      
+
+      
 
       window.addEventListener('wheel', (e) => {
          e.preventDefault();
 
          // Currently hovered column
-         const activeCol = e.clientX < thresholdX ? splitScrollColumns.item(0) : splitScrollColumns.item(1);
+         const activeColIdx = e.clientX < thresholdX ? 0 : 1;
+         // const activeCol = splitScrollColumns.item(activeColIdx);
+         const activeCol = scrollbarInstances[activeColIdx]().elements().viewport;
 
          // const targetCol = e.target.closest('.split-scroll .section');
          const sectionTop = splitScrollSection.offsetTop - window.scrollY;
@@ -62,7 +105,6 @@
 
             activeCol.scrollBy(0, delta);
             delta = 0;
-            
          }
 
          // Going up
@@ -88,7 +130,6 @@
                if (window.scrollY < 300 && e.deltaY < 0) {
                   delta = delta/6 + delta / (300/window.scrollY);  
                }
-               console.log(delta);
                window.scrollBy(0, delta);
                return;
             }
@@ -100,3 +141,26 @@
    });
 
 </script>
+
+<style>
+.os-scrollbar {
+   --os-size: 10px;
+   --os-padding-perpendicular: 2px;
+   --os-padding-axis: 2px;
+   --os-track-border-radius: 10px;
+   --os-handle-interactive-area-offset: 4px;
+   --os-handle-border-radius: 10px;
+}
+
+.os-scrollbar.body {
+   --os-handle-bg: #27bc9c;
+   --os-handle-bg-hover: #27bc9c;
+   --os-handle-bg-active: #27bc9c;
+}
+
+.os-scrollbar.section {
+   --os-handle-bg: #f36000;
+   --os-handle-bg-hover: #f36000;
+   --os-handle-bg-active: #f36000;
+}
+</style>cloneVNode, 
