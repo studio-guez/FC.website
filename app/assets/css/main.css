@@ -15,6 +15,14 @@ body {
    padding: var(--site-margin);
 }
 
+body.no-scroll {
+   overflow-y: hidden;
+}
+
+a:hover {
+   opacity: 0.6;
+}
+
 .site-header {
    position: fixed;
    top: var(--site-margin);
@@ -157,8 +165,13 @@ h4 {
 }
 
 .split-scroll > * {
-   overflow-y: scroll;
+   overflow-x: hidden;
+   overflow-y: hidden;
    max-height: 100vh;
+}
+
+.split-scroll.active > * {
+   overflow-y: scroll;
 }
 
 @media (max-width: 1024px) {
