@@ -97,14 +97,6 @@
          window.scrollBy(0, delta);
 
       }, {passive: false});
-
-      function disableMainScroll() {
-         document.body.classList.add('no-scroll');
-      }
-
-      function enableMainScroll() {
-         document.body.classList.remove('no-scroll');
-      }
    });
 
 </script>
