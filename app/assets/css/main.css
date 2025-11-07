@@ -29,6 +29,12 @@ hr {
    height: 0.09em;
 }
 
+a, u {
+   text-decoration-thickness: 0.07em;
+   text-underline-offset: 0.14em;
+   text-decoration-skip-ink: none;
+}
+
 .site-header {
    position: fixed;
    top: var(--site-margin);
