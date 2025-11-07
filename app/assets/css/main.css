@@ -73,16 +73,21 @@ a, u {
 }
 
 h2 {
-   font-size: 3rem;
+   font-size: 4rem;
    margin-bottom: 1rem;
 }
 
 h3 {
-   font-size: 2rem;
+   font-size: 3rem;
    margin-bottom: 1rem;
 }
 
 h4 {
+   font-size: 2rem;
+   margin-bottom: 1rem;
+}
+
+h5 {
    font-size: 1rem;
    margin-bottom: 1rem;
 }
