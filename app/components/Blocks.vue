@@ -3,7 +3,7 @@
 
       <div v-if="block.type === 'text'" class="text mb-1" v-html="block.text" :style="{color: block.color}"/>
 
-      <div v-if="block.type === 'image'" :class="['image', `image-corner-${block.cornerRadius}`, 'mb-1']" :style="{color: block.color}">
+      <div v-if="block.type === 'image'" :class="['image', 'mb-1']" :style="{color: block.color, borderRadius: `${block.cornerRadius*5}px`}">
          <img :src="block.image.url" :alt="block.image.alt">
       </div>
 
