@@ -23,6 +23,12 @@ a:hover {
    opacity: 0.6;
 }
 
+hr {
+   border: none;
+   background-color: currentColor;
+   height: 0.09em;
+}
+
 .site-header {
    position: fixed;
    top: var(--site-margin);
