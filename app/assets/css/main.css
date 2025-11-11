@@ -37,6 +37,10 @@ a, u {
    text-decoration-skip-ink: none;
 }
 
+a[href^="mailto:"] {
+   word-wrap: anywhere;
+}
+
 .site-header {
    position: fixed;
    top: var(--site-margin);
