@@ -13,6 +13,7 @@
 
 body {
    padding: var(--site-margin);
+   padding-right: 12px;
 }
 
 body.no-scroll {
@@ -153,14 +154,15 @@ h5 {
    grid-column-gap: 0.25rem;
 }
 
-.split-scroll > *:first-child {
+/* .split-scroll > *:first-child {
    padding-right: 0.75rem;
-}
+} */
 
 .split-scroll > * {
    overflow-x: hidden;
    overflow-y: hidden;
    max-height: 100vh;
+   padding-right: calc(var(--site-margin)*2);
 }
 
 .split-scroll.active > * {
