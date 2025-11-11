@@ -5,8 +5,14 @@
 	<main class="site-main">
       <Section id="intro" />
       <div class="split-scroll mb-2">
-         <Section id="experiences" />
-         <Section id="objects" />
+         <div>
+            <h3 class="mobile" style="color: rgb(111, 4, 206)">Les Expériences</h3>
+            <Section id="experiences" />
+         </div>
+         <div>
+            <h3 class="mobile" style="color: rgb(243, 96, 0);">Les Objets</h3>
+            <Section id="objects" />
+         </div>
       </div>
       <Section id="outro" />
 	</main>
