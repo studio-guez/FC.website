@@ -13,6 +13,8 @@
 
 body {
    padding: var(--site-margin);
+   padding-right: 14px;
+   overflow-x: hidden;
 }
 
 body.no-scroll {
@@ -21,6 +23,18 @@ body.no-scroll {
 
 a:hover {
    opacity: 0.6;
+}
+
+hr {
+   border: none;
+   background-color: currentColor;
+   height: 0.09em;
+}
+
+a, u {
+   text-decoration-thickness: 0.07em;
+   text-underline-offset: 0.14em;
+   text-decoration-skip-ink: none;
 }
 
 .site-header {
@@ -44,6 +58,28 @@ a:hover {
    margin-left: 5.5rem;
 }
 
+@media (max-width: 1024px) {
+   .site-header {
+      top: initial;
+      left: initial;
+      position: relative;
+      writing-mode: initial;
+      flex-direction: column;
+      align-items: start;
+      margin-bottom: 1rem;
+   }
+
+   .site-header .icon-logo-fc {
+      transform: initial;
+      order: -1;
+      margin-bottom: 1rem;
+   }  
+
+   .site-main {
+      margin-left: 0;
+   }
+}
+
 .mb-1:not(:last-child) {
    margin-bottom: 1rem;
 }
@@ -61,16 +97,21 @@ a:hover {
 }
 
 h2 {
-   font-size: 3rem;
+   font-size: 4rem;
    margin-bottom: 1rem;
 }
 
 h3 {
-   font-size: 2rem;
+   font-size: 3rem;
    margin-bottom: 1rem;
 }
 
 h4 {
+   font-size: 2rem;
+   margin-bottom: 1rem;
+}
+
+h5 {
    font-size: 1rem;
    margin-bottom: 1rem;
 }
@@ -128,30 +169,6 @@ h4 {
    height: auto;
 }
 
-.image-corner-10 {
-   border-radius: 10px;
-}
-
-.image-corner-20 {
-   border-radius: 20px;
-}
-
-.image-corner-40 {
-   border-radius: 40px;
-}
-
-.image-corner-60 {
-   border-radius: 60px;
-}
-
-.image-corner-80 {
-   border-radius: 80px;
-}
-
-.image-corner-100 {
-   border-radius: 100px;
-}
-
 .split-scroll {
    display: grid;
    max-height: 100vh;
@@ -160,14 +177,11 @@ h4 {
    grid-column-gap: 0.25rem;
 }
 
-.split-scroll > *:first-child {
-   padding-right: 0.75rem;
-}
-
 .split-scroll > * {
    overflow-x: hidden;
    overflow-y: hidden;
    max-height: 100vh;
+   padding-right: calc(var(--site-margin)*2);
 }
 
 .split-scroll.active > * {
@@ -179,6 +193,13 @@ h4 {
       display: block;
       overflow: initial;
       max-height: initial;
+   }
+
+   .split-scroll > * {
+      overflow: initial;
+      max-height: initial;
+      padding-right: 0;
+
    }
 }
 
