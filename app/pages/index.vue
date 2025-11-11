@@ -17,6 +17,7 @@
    import { useOverlayScrollbars } from "overlayscrollbars-vue";
    import { onMounted } from 'vue'
 
+   // Query site content
    const body = {
       query: 'site',
       select: {
@@ -30,25 +31,23 @@
       body: JSON.stringify(body),
    });
 
-   const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] =
-   useOverlayScrollbars({
-      defer: true,
-      options: {
-         scrollbars: {
-            theme: 'body',
-            clickScroll: true,
-         },
-      },
-   });
-
-   
-
-
    onMounted(() => {
       const splitScrollSection = document.querySelector('.split-scroll');
       const splitScrollColumns = document.querySelectorAll('.split-scroll > *');
       const scrollbarInstances = [];
       const thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
+
+      // Init custom scrollbars
+      const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] =
+      useOverlayScrollbars({
+         defer: true,
+         options: {
+            scrollbars: {
+               theme: 'body',
+               clickScroll: true,
+            },
+         },
+      });
 
       initBodyOverlayScrollbars(document.body);
 
@@ -71,22 +70,18 @@
          scrollbarInstances.push(getColOverlayScrollbarsInstance);
       });
       
-
-      
-
+      // Scroll listener for split scroll section
       window.addEventListener('wheel', (e) => {
          e.preventDefault();
 
          // Currently hovered column
          const activeColIdx = e.clientX < thresholdX ? 0 : 1;
-         // const activeCol = splitScrollColumns.item(activeColIdx);
          const activeCol = scrollbarInstances[activeColIdx]().elements().viewport;
 
-         // const targetCol = e.target.closest('.split-scroll .section');
          const sectionTop = splitScrollSection.offsetTop - window.scrollY;
          let delta = e.deltaY;
          
-         // Going down
+         // Scrolling down
          if (e.deltaY > sectionTop && e.deltaY > 0) {   
             
             if (sectionTop > 0) {
@@ -107,7 +102,7 @@
             delta = 0;
          }
 
-         // Going up
+         // Scrolling up
          if (e.deltaY < 0) {
 
             if (sectionTop < 0) {
