@@ -21,6 +21,16 @@ body.no-scroll {
    overflow-y: hidden;
 }
 
+.mobile {
+   display: none;
+}
+
+@media (max-width: 1024px) {
+   .mobile {
+      display: block;
+   }
+}
+
 a:hover {
    opacity: 0.6;
 }
@@ -68,8 +78,8 @@ a[href^="mailto:"] {
       left: initial;
       position: relative;
       writing-mode: initial;
-      flex-direction: column;
-      align-items: start;
+      justify-content: start;
+      gap: 1rem;
       margin-bottom: 1rem;
    }
 
@@ -124,7 +134,7 @@ h5 {
    :root {
       font-size: 20px;
    }
-   
+
    h2 {
       font-size: 3rem;
    }
