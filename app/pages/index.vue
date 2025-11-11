@@ -31,11 +31,17 @@
       body: JSON.stringify(body),
    });
 
+
    onMounted(() => {
       const splitScrollSection = document.querySelector('.split-scroll');
       const splitScrollColumns = document.querySelectorAll('.split-scroll > *');
-      const scrollbarInstances = [];
-      const thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
+      let thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
+      let scrollbarInstances = [];
+      const mediaQuery = window.matchMedia("(max-width: 1024px)");
+      
+      window.addEventListener('resize', (e) => {
+         thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
+      });
 
       // Init custom scrollbars
       const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] =
@@ -50,6 +56,21 @@
       });
 
       initBodyOverlayScrollbars(document.body);
+
+      function toggleSplitScroll() {
+         if (mediaQuery.matches) {
+            destroySplitScroll();
+         } else {
+            initSplitScroll();
+         }
+      }
+
+      toggleSplitScroll();
+
+      mediaQuery.addListener(toggleSplitScroll);
+
+   function initSplitScroll() {
+      window.addEventListener('wheel', handleWheel, {passive: false});
 
       splitScrollColumns.forEach(col => {
          const [initColOverlayScrollbars, getColOverlayScrollbarsInstance] =
@@ -69,71 +90,80 @@
          initColOverlayScrollbars(col);
          scrollbarInstances.push(getColOverlayScrollbarsInstance);
       });
+   }
+
+   function destroySplitScroll() {
+      window.removeEventListener('wheel', handleWheel);
       
-      // Scroll listener for split scroll section
-      window.addEventListener('wheel', (e) => {
-         e.preventDefault();
+      scrollbarInstances.forEach(instance => {
+         instance().destroy();
+      });
+      scrollbarInstances = [];
+   }
 
-         // Currently hovered column
-         const activeColIdx = e.clientX < thresholdX ? 0 : 1;
-         const activeCol = scrollbarInstances[activeColIdx]().elements().viewport;
+   function handleWheel(e) {
+      e.preventDefault();
 
-         const sectionTop = splitScrollSection.offsetTop - window.scrollY;
-         let delta = e.deltaY;
+      // Currently hovered column
+      const activeColIdx = e.clientX < thresholdX ? 0 : 1;
+      const activeCol = scrollbarInstances[activeColIdx]().elements().viewport;
+
+      const sectionTop = splitScrollSection.offsetTop - window.scrollY;
+      let delta = e.deltaY;
+      
+      // Scrolling down
+      if (e.deltaY > sectionTop && e.deltaY > 0) {   
          
-         // Scrolling down
-         if (e.deltaY > sectionTop && e.deltaY > 0) {   
-            
-            if (sectionTop > 0) {
-               window.scrollBy(0, sectionTop);
-               delta -= sectionTop;
-            }
-         
-            const leftToScroll = activeCol.scrollHeight - activeCol.scrollTop - window.innerHeight;
+         if (sectionTop > 0) {
+            window.scrollBy(0, sectionTop);
+            delta -= sectionTop;
+         }
+      
+         const leftToScroll = activeCol.scrollHeight - activeCol.scrollTop - window.innerHeight;
 
-            if (e.deltaY > leftToScroll) {
-               activeCol.scrollBy(0, leftToScroll);
-               delta -= leftToScroll;
-               window.scrollBy(0, delta);
-               delta = 0;
-            }
-
-            activeCol.scrollBy(0, delta);
+         if (e.deltaY > leftToScroll) {
+            activeCol.scrollBy(0, leftToScroll);
+            delta -= leftToScroll;
+            window.scrollBy(0, delta);
             delta = 0;
          }
 
-         // Scrolling up
-         if (e.deltaY < 0) {
+         activeCol.scrollBy(0, delta);
+         delta = 0;
+      }
 
-            if (sectionTop < 0) {
-               window.scrollBy(0, Math.max(sectionTop, e.deltaY));
-               return;
-            }
+      // Scrolling up
+      if (e.deltaY < 0) {
 
-            if (sectionTop == 0) {
-               activeCol.scrollBy(0, e.deltaY);
-               const overflow = e.deltaY + activeCol.scrollTop;
-               if (overflow < 0) {
-                  activeCol.scrollBy(0, -activeCol.scrollTop);
-                  window.scrollBy(0, overflow);
-               }
-               return;  
-            }
-
-            if (sectionTop > 0) {
-               let delta = e.deltaY;
-               if (window.scrollY < 300 && e.deltaY < 0) {
-                  delta = delta/6 + delta / (300/window.scrollY);  
-               }
-               window.scrollBy(0, delta);
-               return;
-            }
+         if (sectionTop < 0) {
+            window.scrollBy(0, Math.max(sectionTop, e.deltaY));
+            return;
          }
-         
-         window.scrollBy(0, delta);
 
-      }, {passive: false});
-   });
+         if (sectionTop == 0) {
+            activeCol.scrollBy(0, e.deltaY);
+            const overflow = e.deltaY + activeCol.scrollTop;
+            if (overflow < 0) {
+               activeCol.scrollBy(0, -activeCol.scrollTop);
+               window.scrollBy(0, overflow);
+            }
+            return;  
+         }
+
+         if (sectionTop > 0) {
+            let delta = e.deltaY;
+            if (window.scrollY < 300 && e.deltaY < 0) {
+               delta = delta/6 + delta / (300/window.scrollY);  
+            }
+            window.scrollBy(0, delta);
+            return;
+         }
+      }
+      
+      window.scrollBy(0, delta);
+
+   };
+});
 
 </script>
 
