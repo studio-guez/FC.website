@@ -12,6 +12,8 @@
 }
 
 body {
+   display: flex;
+   flex-flow: column;
    padding: var(--site-margin);
    padding-right: 14px;
    overflow-x: hidden;
@@ -25,16 +27,6 @@ body.no-scroll {
    display: none;
 }
 
-@media (max-width: 1024px) {
-   .mobile {
-      display: block;
-   }
-}
-
-a:hover {
-   opacity: 0.6;
-}
-
 hr {
    border: none;
    background-color: currentColor;
@@ -45,6 +37,10 @@ a, u {
    text-decoration-thickness: 0.07em;
    text-underline-offset: 0.14em;
    text-decoration-skip-ink: none;
+}
+
+a:hover {
+   opacity: 0.6;
 }
 
 a[href^="mailto:"] {
@@ -60,38 +56,54 @@ a[href^="mailto:"] {
    justify-content: space-between;
    box-sizing: border-box;
    height: calc(100% - var(--site-margin)*2);
+   white-space: nowrap;
+}
+
+.site-header .header-logo {
+   transform: translate(-32.5%, 77%) rotate(-90deg);
 }
 
 .site-header .icon-logo-fc {
-   transform: translate(-32.5%, 77%) rotate(-90deg);
    height: 2rem;
    width: auto;
 }
 
-.site-main {
-   margin-left: 5.5rem;
+.mobile-nav {
+   position: fixed;
+   top: var(--site-margin);
+   left: var(--site-margin);
+   z-index: 1;
+   line-height: 0;
+   transform: translateY(-150%);
+   transition: transform 0.4s;
 }
 
-@media (max-width: 1024px) {
-   .site-header {
-      top: initial;
-      left: initial;
-      position: relative;
-      writing-mode: initial;
-      justify-content: start;
-      gap: 1rem;
-      margin-bottom: 1rem;
-   }
+.mobile-nav.active {
+   transform: translateY(0);
+}
 
-   .site-header .icon-logo-fc {
-      transform: initial;
-      order: -1;
-      margin-bottom: 1rem;
-   }  
+.mobile-nav .icon-logo-fc {
+   height: 3rem;
+   width: auto;
+}
 
-   .site-main {
-      margin-left: 0;
-   }
+.mobile-nav a {
+   font-size: 0;
+}
+
+.mobile-nav::before {
+   content: "";
+   display: block;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: white;
+}
+
+.site-main {
+   margin-left: 5.5rem;
 }
 
 .mb-1:not(:last-child) {
@@ -128,24 +140,6 @@ h4 {
 h5 {
    font-size: 1rem;
    margin-bottom: 1rem;
-}
-
-@media (max-width: 720px) {
-   :root {
-      font-size: 20px;
-   }
-
-   h2 {
-      font-size: 3rem;
-   }
-
-   h3 {
-      font-size: 2.25rem;
-   }
-
-   h4 {
-      font-size: 1.5rem;
-   }
 }
 
 .text p,
@@ -220,21 +214,6 @@ h5 {
    overflow-y: scroll;
 }
 
-@media (max-width: 1024px) {
-   .split-scroll {
-      display: block;
-      overflow: initial;
-      max-height: initial;
-   }
-
-   .split-scroll > * {
-      overflow: initial;
-      max-height: initial;
-      padding-right: 0;
-
-   }
-}
-
 .file a,
 .link a {
    text-decoration: none
@@ -248,4 +227,119 @@ h5 {
 .link a:before {
    content: "";
    margin-right: 0.5em
+}
+
+@media (max-width: 1024px) {
+   :root {
+      font-size: 21px;
+   }
+
+   h2 {
+      font-size: 3.5rem;
+   }
+
+   h3 {
+      font-size: 2.5rem;
+   }
+
+   h4 {
+      font-size: 1.5rem;
+   }
+}
+
+@media (max-width: 920px) {
+   :root {
+      font-size: 20px;
+   }
+
+   h2 {
+      font-size: 3rem;
+   }
+
+   h3 {
+      font-size: 2.25rem;
+   }
+
+   h4 {
+      font-size: 1.5rem;
+   }
+
+   .split-scroll {
+      display: block;
+      overflow: initial;
+      max-height: initial;
+   }
+
+   .split-scroll > * {
+      overflow: initial;
+      max-height: initial;
+      padding-right: 0;
+   }
+}
+
+@media (max-width: 720px) {
+   .site-header {
+      top: initial;
+      left: initial;
+      position: relative;
+      writing-mode: initial;
+      justify-content: start;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      order: 2;
+   }
+
+   .site-header {
+      font-size: 3.2vw;
+   }
+
+   .site-header .header-logo {
+      transform: initial;
+      order: -1;
+   }  
+
+   .site-main {
+      margin-left: 0;
+   }
+
+   .mobile {
+      display: block;
+   }
+}
+
+@media (max-width: 520px) {
+   :root {
+      font-size: 18px;
+   }
+
+   h2 {
+      font-size: 2.5rem;
+   }
+
+   h3 {
+      font-size: 1.75rem;
+   }
+
+   h4 {
+      font-size: 1.25rem;
+   }
+}
+
+@media (max-width: 400px) {
+   :root {
+      font-size: 16px;
+   }
+
+   h2 {
+      font-size: 2.25rem;
+   }
+
+   h3 {
+      font-size: 1.35rem;
+   }
+
+   h4 {
+      font-size: 1.1rem;
+   }
 }

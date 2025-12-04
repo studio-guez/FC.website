@@ -18,7 +18,7 @@
       <hr v-if="block.type === 'hr'" class="hr mb-1" :style="{color: block.color}" />
 
       <div v-if="block.type === 'newsletter'" class="newsletter mb-1" :style="{color: block.color}">
-         <Inscription/>
+         <Newsletter/>
       </div>
 
    </template>
