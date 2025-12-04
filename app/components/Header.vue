@@ -11,7 +11,7 @@
       select: {
          header: true,
          header_color: true,
-         }
+      }
    }
 
    const {data, status} = await useFetch('/api/CMS_KQLRequest', {
