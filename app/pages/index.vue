@@ -43,7 +43,7 @@
       const splitScrollColumns = document.querySelectorAll('.split-scroll > *');
       let thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
       let scrollbarInstances = [];
-      const mediaQuery = window.matchMedia("(max-width: 1024px)");
+      const mediaQuery = window.matchMedia("(max-width: 920px)");
       
       window.addEventListener('resize', (e) => {
          thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
