@@ -96,7 +96,7 @@ function onSubmit(e) {
 
   .recaptcha-container {
     overflow: hidden;
-    width: 8rem
+    width: 10rem
   }
 
   #mcaptcha__widget-container {

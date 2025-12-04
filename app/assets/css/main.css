@@ -56,6 +56,7 @@ a[href^="mailto:"] {
    justify-content: space-between;
    box-sizing: border-box;
    height: calc(100% - var(--site-margin)*2);
+   white-space: nowrap;
 }
 
 .site-header .header-logo {
@@ -287,6 +288,10 @@ h5 {
       gap: 1rem;
       margin-top: 2rem;
       order: 2;
+   }
+
+   .site-header {
+      font-size: 3.2vw;
    }
 
    .site-header .header-logo {
