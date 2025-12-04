@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   app: {
+    rootTag: 'body',
     head: {
       link: [{rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}]
     }

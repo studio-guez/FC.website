@@ -37,7 +37,6 @@
       body: JSON.stringify(body),
    });
 
-
    onMounted(() => {
       const splitScrollSection = document.querySelector('.split-scroll');
       const splitScrollColumns = document.querySelectorAll('.split-scroll > *');
