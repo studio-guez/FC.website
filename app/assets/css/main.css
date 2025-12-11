@@ -211,7 +211,7 @@ h5 {
 }
 
 .split-scroll.active > * {
-   overflow-y: scroll;
+   /* overflow-y: scroll; */
 }
 
 .file a,
