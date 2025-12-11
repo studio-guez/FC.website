@@ -3,18 +3,19 @@
     <Title>{{ data?.result.title }}</Title>
   </Head>
 	<main class="site-main">
-      <Section id="intro" />
-      <SplitScroll>
-         <template v-slot:left>
-            <h3 class="mobile" style="color: rgb(111, 4, 206)">Les Expériences</h3>
-            <Section id="experiences" />
+      <template v-for="section in data?.result.sections">
+         <template v-if="section.columns.length == 1">
+            <Section :id="section.columns[0].id" :blocks="section.columns[0].blocks"/>
          </template>
-         <template v-slot:right>
-            <h3 class="mobile" style="color: rgb(243, 96, 0);">Les Objets</h3>
-            <Section id="objects" />
-         </template>
-      </SplitScroll>
-      <Section id="outro" />
+         <SplitScroll v-if="section.columns.length == 2">
+            <template v-slot:left>
+               <Section :id="section.columns[0].id" :blocks="section.columns[0].blocks"/>
+            </template>
+            <template v-slot:right>
+               <Section :id="section.columns[1].id" :blocks="section.columns[1].blocks"/>
+            </template>
+         </SplitScroll>
+      </template>
 	</main>
 </template>
 
@@ -24,6 +25,29 @@
       query: 'site',
       select: {
          title: true,
+         sections: {
+            query: 'site.sections.toLayouts',
+            select: {
+               id: true,
+               columns: {
+                  select: {
+                     id: true,
+                     blocks: {
+                        select: {
+                           type: true,
+                           color: true,
+                           label: true,
+                           url: true,
+                           text: 'block.content.text.kirbytags',
+                           image: 'block.content.image.toFile',
+                           file: 'block.content.file.toFile',
+                           cornerRadius: 'block.content.cornerRadius'
+                        }
+                     }
+                  }
+               }  
+            }
+         }
       }
    }
 
