@@ -32,6 +32,7 @@
    const pageQuery = pathSegments.length ? `site.find('${fullPageSlug}')` : 'site';
    const layoutQuery = pathSegments.length ? 'page.sections.toLayouts' : 'site.sections.toLayouts';
 
+   // TODO: Try to reduce duplication in the query
    const body = {
       query: pageQuery,
       select: {
@@ -54,7 +55,28 @@
                            text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText',
                            image: 'block.content.image.toFile',
                            file: 'block.content.file.toFile',
-                           cornerRadius: 'block.content.cornerRadius'
+                           cornerRadius: 'block.content.cornerRadius',
+                           title: {
+                              query: 'block.content.title.toBlocks',
+                              select: {
+                                 color: true,
+                                 text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText'
+                              }
+                           },
+                           content: {
+                              query: 'block.content.content.toBlocks',
+                              select: {
+                                 type: true,
+                                 color: true,
+                                 mobile: 'block.mobile.toBool',
+                                 label: true,
+                                 url: true,
+                                 text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText',
+                                 image: 'block.content.image.toFile',
+                                 file: 'block.content.file.toFile',
+                                 cornerRadius: 'block.content.cornerRadius'
+                              }
+                           }
                         }
                      }
                   }

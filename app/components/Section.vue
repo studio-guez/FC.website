@@ -19,6 +19,12 @@
             <a :href="block.url" target="_blank">{{ block.label }}</a>
          </div>
 
+         <!-- Subsections -->
+          <section v-if="block.type === 'subsection'" class="subsection mb-1">
+            <header v-html="block.title[0].text" :style="{color: block.title[0].color}" />
+            <Section :id="block.content.id" :blocks="block.content"/>
+          </section>
+
          <!-- Separator -->
          <hr v-if="block.type === 'hr'" class="hr mb-1" :style="{color: block.color}" />
 
@@ -33,4 +39,6 @@
 
 <script setup lang="ts">
    const props = defineProps(['id', 'blocks']);
+
+   console.log(props.blocks);
 </script>
