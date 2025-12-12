@@ -3,31 +3,54 @@
     <Title>{{ data?.result.title }}</Title>
   </Head>
 	<main class="site-main">
-      <Section id="intro" />
-      <div class="split-scroll mb-2">
-         <div>
-            <h3 class="mobile" style="color: rgb(111, 4, 206)">Les Expériences</h3>
-            <Section id="experiences" />
-         </div>
-         <div>
-            <h3 class="mobile" style="color: rgb(243, 96, 0);">Les Objets</h3>
-            <Section id="objects" />
-         </div>
-      </div>
-      <Section id="outro" />
+      <template v-for="section in data?.result.sections">
+         <template v-if="section.columns.length == 1">
+            <Section :id="section.columns[0].id" :blocks="section.columns[0].blocks"/>
+         </template>
+         
+         <template v-if="section.columns.length == 2">
+            <SplitScroll>
+               <template v-slot:left>
+                  <Section :id="section.columns[0].id" :blocks="section.columns[0].blocks"/>
+               </template>
+               <template v-slot:right>
+                  <Section :id="section.columns[1].id" :blocks="section.columns[1].blocks"/>
+               </template>
+            </SplitScroll>
+         </template>
+      </template>
 	</main>
 </template>
 
 <script setup lang="ts">
-   import 'overlayscrollbars/overlayscrollbars.css';
-   import { useOverlayScrollbars } from "overlayscrollbars-vue";
-   import { onMounted } from 'vue'
-
    // Query site content
    const body = {
       query: 'site',
       select: {
          title: true,
+         sections: {
+            query: 'site.sections.toLayouts',
+            select: {
+               id: true,
+               columns: {
+                  select: {
+                     id: true,
+                     blocks: {
+                        select: {
+                           type: true,
+                           color: true,
+                           label: true,
+                           url: true,
+                           text: 'block.content.text.kirbytags',
+                           image: 'block.content.image.toFile',
+                           file: 'block.content.file.toFile',
+                           cornerRadius: 'block.content.cornerRadius'
+                        }
+                     }
+                  }
+               }  
+            }
+         }
       }
    }
 
@@ -37,160 +60,4 @@
       body: JSON.stringify(body),
    });
 
-   onMounted(() => {
-      const splitScrollSection = document.querySelector('.split-scroll');
-      const splitScrollColumns = document.querySelectorAll('.split-scroll > *');
-      let thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
-      let scrollbarInstances = [];
-      const mediaQuery = window.matchMedia("(max-width: 920px)");
-      
-      window.addEventListener('resize', (e) => {
-         thresholdX = splitScrollColumns.item(0).getBoundingClientRect().right;
-      });
-
-      // Init custom scrollbars
-      const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] =
-      useOverlayScrollbars({
-         defer: true,
-         options: {
-            scrollbars: {
-               theme: 'body',
-               clickScroll: true,
-            },
-         },
-      });
-
-      initBodyOverlayScrollbars(document.body);
-
-      function toggleSplitScroll() {
-         if (mediaQuery.matches) {
-            destroySplitScroll();
-         } else {
-            initSplitScroll();
-         }
-      }
-
-      toggleSplitScroll();
-
-      mediaQuery.addListener(toggleSplitScroll);
-
-   function initSplitScroll() {
-      window.addEventListener('wheel', handleWheel, {passive: false});
-
-      splitScrollColumns.forEach(col => {
-         const [initColOverlayScrollbars, getColOverlayScrollbarsInstance] =
-         useOverlayScrollbars({
-            defer: true,
-            options: {
-               elements: {
-                  viewport: splitScrollSection
-               },
-               scrollbars: {
-                  theme: 'section',
-                  clickScroll: true,
-               },
-            },
-         });
-
-         initColOverlayScrollbars(col);
-         scrollbarInstances.push(getColOverlayScrollbarsInstance);
-      });
-   }
-
-   function destroySplitScroll() {
-      window.removeEventListener('wheel', handleWheel);
-      
-      scrollbarInstances.forEach(instance => {
-         instance().destroy();
-      });
-      scrollbarInstances = [];
-   }
-
-   function handleWheel(e) {
-      e.preventDefault();
-
-      // Currently hovered column
-      const activeColIdx = e.clientX < thresholdX ? 0 : 1;
-      const activeCol = scrollbarInstances[activeColIdx]().elements().viewport;
-
-      const sectionTop = splitScrollSection.offsetTop - window.scrollY;
-      let delta = e.deltaY;
-      
-      // Scrolling down
-      if (e.deltaY > sectionTop && e.deltaY > 0) {   
-         
-         if (sectionTop > 0) {
-            window.scrollBy(0, sectionTop);
-            delta -= sectionTop;
-         }
-      
-         const leftToScroll = activeCol.scrollHeight - activeCol.scrollTop - window.innerHeight;
-
-         if (e.deltaY > leftToScroll) {
-            activeCol.scrollBy(0, leftToScroll);
-            delta -= leftToScroll;
-            window.scrollBy(0, delta);
-            delta = 0;
-         }
-
-         activeCol.scrollBy(0, delta);
-         delta = 0;
-      }
-
-      // Scrolling up
-      if (e.deltaY < 0) {
-
-         if (sectionTop < 0) {
-            window.scrollBy(0, Math.max(sectionTop, e.deltaY));
-            return;
-         }
-
-         if (sectionTop == 0) {
-            activeCol.scrollBy(0, e.deltaY);
-            const overflow = e.deltaY + activeCol.scrollTop;
-            if (overflow < 0) {
-               activeCol.scrollBy(0, -activeCol.scrollTop);
-               window.scrollBy(0, overflow);
-            }
-            return;  
-         }
-
-         if (sectionTop > 0) {
-            let delta = e.deltaY;
-            if (window.scrollY < 300 && e.deltaY < 0) {
-               delta = delta/6 + delta / (300/window.scrollY);  
-            }
-            window.scrollBy(0, delta);
-            return;
-         }
-      }
-      
-      window.scrollBy(0, delta);
-
-   };
-});
-
 </script>
-
-<style>
-.os-scrollbar {
-   --os-size: 10px;
-   --os-padding-perpendicular: 2px;
-   --os-padding-axis: 2px;
-   --os-track-border-radius: 10px;
-   --os-handle-interactive-area-offset: 4px;
-   --os-handle-border-radius: 10px;
-}
-
-.os-scrollbar.body {
-   --os-handle-bg: #27bc9c;
-   --os-handle-bg-hover: #27bc9c;
-   --os-handle-bg-active: #27bc9c;
-}
-
-.os-scrollbar.section {
-   --os-handle-bg: #f36000;
-   --os-handle-bg-hover: #f36000;
-   --os-handle-bg-active: #f36000;
-}
-</style>
