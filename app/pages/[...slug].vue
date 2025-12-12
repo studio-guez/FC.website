@@ -69,7 +69,6 @@
       body: JSON.stringify(body),
    });
 
-   console.log(data.value);
 
    watchEffect(() => {
       // If the page doesn't exist, redirect to the parent page
