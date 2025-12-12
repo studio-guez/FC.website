@@ -15,6 +15,7 @@
    import { useTemplateRef, onMounted } from 'vue';
 
    const el = useTemplateRef('el');
+   const props = defineProps(['color']);
 
    onMounted(() => {
       const splitScrollSections = document.querySelectorAll('.split-scroll');
@@ -148,8 +149,8 @@
 
 <style>
    .os-scrollbar.section {
-      --os-handle-bg: #f36000;
-      --os-handle-bg-hover: #f36000;
-      --os-handle-bg-active: #f36000;
+      --os-handle-bg: v-bind(props.color);
+      --os-handle-bg-hover: v-bind(props.color);
+      --os-handle-bg-active: v-bind(props.color);
    }
 </style>

@@ -1,5 +1,12 @@
 <template>
-  <Header/>
+  <Head>
+    <Style>
+      :root {
+        --scrollbar-color: {{ scrollbarColor }};
+      }
+    </Style>
+  </Head>
+  <Header :color="data?.result?.color"/>
   <NuxtPage/>
 </template>
 
@@ -7,6 +14,21 @@
   import 'overlayscrollbars/overlayscrollbars.css';
   import { useOverlayScrollbars } from "overlayscrollbars-vue";
   import { onMounted } from 'vue';
+
+  const body = {
+    query: 'site',
+    select: {
+      color: 'site.header_color',
+    }
+  }
+
+  const {data, status} = await useFetch('/api/CMS_KQLRequest', {
+    lazy: true,
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+
+  const scrollbarColor = data.value.result.color;
 
   onMounted(() => {
     // Show mobile navigation when scrolling up
@@ -44,8 +66,8 @@
   }
 
   .os-scrollbar.body {
-    --os-handle-bg: #27bc9c;
-    --os-handle-bg-hover: #27bc9c;
-    --os-handle-bg-active: #27bc9c;
+    --os-handle-bg: var(--scrollbar-color);
+    --os-handle-bg-hover: var(--scrollbar-color);
+    --os-handle-bg-active: var(--scrollbar-color);
   }
 </style>
