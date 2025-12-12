@@ -1,9 +1,9 @@
 <template>
 	<Head>
-    <Title>{{ data?.result.title }}</Title>
+    <Title>{{ data?.result?.title }}</Title>
   </Head>
 	<main class="site-main">
-      <template v-for="section in data?.result.sections">
+      <template v-for="section in data?.result?.sections">
          <template v-if="section.columns.length == 1">
             <Section :id="section.columns[0].id" :blocks="section.columns[0].blocks"/>
          </template>
@@ -23,13 +23,21 @@
 </template>
 
 <script setup lang="ts">
-   // Query site content
+   // import { useRoute } from 'vue-router';
+   import { useRoute, navigateTo } from '#app';
+   
+   const route = useRoute();
+   const pathSegments = route.params.slug || [];
+   const fullPageSlug = pathSegments.join('/');
+   const pageQuery = pathSegments.length ? `site.find('${fullPageSlug}')` : 'site';
+   const layoutQuery = pathSegments.length ? 'page.sections.toLayouts' : 'site.sections.toLayouts';
+
    const body = {
-      query: 'site',
+      query: pageQuery,
       select: {
          title: true,
          sections: {
-            query: 'site.sections.toLayouts',
+            query: layoutQuery,
             select: {
                id: true,
                columns: {
@@ -41,7 +49,7 @@
                            color: true,
                            label: true,
                            url: true,
-                           text: 'block.content.text.kirbytags',
+                           text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText',
                            image: 'block.content.image.toFile',
                            file: 'block.content.file.toFile',
                            cornerRadius: 'block.content.cornerRadius'
@@ -54,10 +62,19 @@
       }
    }
 
-   const {data, status} = await useFetch('/api/CMS_KQLRequest', {
+   const { data, error } = await useFetch('/api/CMS_KQLRequest', {
       lazy: true,
       method: 'POST',
       body: JSON.stringify(body),
+   });
+
+   watchEffect(() => {
+      // If the page doesn't exist, redirect to the parent page
+      if (error.value || !data.value?.result) {
+         const parentUrl = pathSegments.slice(0, -1).join('/') || '/';
+         navigateTo(parentUrl, { redirectCode: 302 });
+         return;
+      }
    });
 
 </script>
