@@ -7,14 +7,17 @@
          <template v-if="section.columns.length == 1">
             <Section :id="section.columns[0].id" :blocks="section.columns[0].blocks"/>
          </template>
-         <SplitScroll v-if="section.columns.length == 2">
-            <template v-slot:left>
-               <Section :id="section.columns[0].id" :blocks="section.columns[0].blocks"/>
-            </template>
-            <template v-slot:right>
-               <Section :id="section.columns[1].id" :blocks="section.columns[1].blocks"/>
-            </template>
-         </SplitScroll>
+         
+         <template v-if="section.columns.length == 2">
+            <SplitScroll>
+               <template v-slot:left>
+                  <Section :id="section.columns[0].id" :blocks="section.columns[0].blocks"/>
+               </template>
+               <template v-slot:right>
+                  <Section :id="section.columns[1].id" :blocks="section.columns[1].blocks"/>
+               </template>
+            </SplitScroll>
+         </template>
       </template>
 	</main>
 </template>
