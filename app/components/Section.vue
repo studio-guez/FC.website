@@ -1,5 +1,5 @@
 <template>
-   <section :id="props.id" class="section mb-2">
+   <section class="section mb-2">
       <template v-for="block of props.blocks">
          <!-- Text -->
          <div v-if="block.type === 'text'" class="text mb-1" :class="{mobile: block.mobile}" v-html="block.text" :style="{color: block.color}"/>
@@ -21,8 +21,7 @@
 
          <!-- Subsections -->
           <section v-if="block.type === 'subsection'" class="subsection mb-1">
-            <header v-html="block.title[0].text" :style="{color: block.title[0].color}" />
-            <Section :id="block.content.id" :blocks="block.content"/>
+            <SubSection :header="block.title[0]" :blocks="block.content"/>
           </section>
 
          <!-- Separator -->
@@ -38,7 +37,5 @@
 </template>
 
 <script setup lang="ts">
-   const props = defineProps(['id', 'blocks']);
-
-   console.log(props.blocks);
+   const props = defineProps(['blocks']);
 </script>

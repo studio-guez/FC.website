@@ -40,11 +40,9 @@
          sections: {
             query: layoutQuery,
             select: {
-               id: true,
                attrs: true,
                columns: {
                   select: {
-                     id: true,
                      blocks: {
                         select: {
                            type: true,

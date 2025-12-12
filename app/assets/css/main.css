@@ -30,7 +30,7 @@ body.no-scroll {
 hr {
    border: none;
    background-color: currentColor;
-   height: 0.09em;
+   height: 0.1rem;
 }
 
 a, u {
@@ -69,6 +69,7 @@ a[href^="mailto:"] {
 }
 
 .mobile-nav {
+   display: none;
    position: fixed;
    top: var(--site-margin);
    left: var(--site-margin);
@@ -210,10 +211,6 @@ h5 {
    padding-right: calc(var(--site-margin)*2);
 }
 
-.split-scroll.active > * {
-   /* overflow-y: scroll; */
-}
-
 .file a,
 .link a {
    text-decoration: none
@@ -275,6 +272,29 @@ h5 {
       max-height: initial;
       padding-right: 0;
    }
+
+   .mobile {
+      display: block;
+   }
+
+   .accordion-trigger > * {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+   }
+   .accordion-trigger > *::after {
+      content: '';
+      cursor: pointer;
+   }
+
+   .accordion-trigger[aria-expanded="true"] > *::after {
+      content: '';
+   }
+
+   .accordion-panel {
+      overflow: hidden;
+      /* border-bottom: 0.1rem solid; */
+   }
 }
 
 @media (max-width: 720px) {
@@ -303,7 +323,7 @@ h5 {
       margin-left: 0;
    }
 
-   .mobile {
+   .mobile-nav {
       display: block;
    }
 }
