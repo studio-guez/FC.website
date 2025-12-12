@@ -9,7 +9,7 @@
          </template>
          
          <template v-if="section.columns.length == 2">
-            <SplitScroll>
+            <SplitScroll :color="section.attrs.color">
                <template v-slot:left>
                   <Section :id="section.columns[0].id" :blocks="section.columns[0].blocks"/>
                </template>
@@ -40,6 +40,7 @@
             query: layoutQuery,
             select: {
                id: true,
+               attrs: true,
                columns: {
                   select: {
                      id: true,
@@ -67,6 +68,8 @@
       method: 'POST',
       body: JSON.stringify(body),
    });
+
+   console.log(data.value);
 
    watchEffect(() => {
       // If the page doesn't exist, redirect to the parent page
