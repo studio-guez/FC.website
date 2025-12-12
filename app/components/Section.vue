@@ -2,7 +2,7 @@
    <section :id="props.id" class="section mb-2">
       <template v-for="block of props.blocks">
          <!-- Text -->
-         <div v-if="block.type === 'text'" class="text mb-1" v-html="block.text" :style="{color: block.color}"/>
+         <div v-if="block.type === 'text'" class="text mb-1" :class="{mobile: block.mobile}" v-html="block.text" :style="{color: block.color}"/>
 
          <!-- Image -->
          <div v-if="block.type === 'image'" :class="['image', 'mb-1']" :style="{color: block.color, borderRadius: `${block.cornerRadius*5}px`}">

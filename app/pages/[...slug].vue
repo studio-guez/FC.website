@@ -48,6 +48,7 @@
                         select: {
                            type: true,
                            color: true,
+                           mobile: 'block.mobile.toBool',
                            label: true,
                            url: true,
                            text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText',
