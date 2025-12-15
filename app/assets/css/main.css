@@ -51,7 +51,6 @@ a[href^="mailto:"] {
    position: fixed;
    top: var(--site-margin);
    left: var(--site-margin);
-   writing-mode: sideways-lr;
    display: flex;
    justify-content: space-between;
    box-sizing: border-box;
@@ -59,8 +58,15 @@ a[href^="mailto:"] {
    white-space: nowrap;
 }
 
+.site-header-text {
+   writing-mode: sideways-lr;
+}
+
 .site-header .header-logo {
    transform: translate(-32.5%, 77%) rotate(-90deg);
+   position: absolute;
+   top: -0.15em;
+   left: 0.15em;
 }
 
 .site-header .icon-logo-fc {
@@ -302,7 +308,6 @@ h5 {
       top: initial;
       left: initial;
       position: relative;
-      writing-mode: initial;
       justify-content: start;
       align-items: center;
       gap: 1rem;
@@ -314,7 +319,12 @@ h5 {
       font-size: 3.2vw;
    }
 
+   .site-header-text {
+      writing-mode: initial;
+   }
+
    .site-header .header-logo {
+      position: initial;
       transform: initial;
       order: -1;
    }  
