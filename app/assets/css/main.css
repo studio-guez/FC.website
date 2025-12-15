@@ -104,9 +104,21 @@ a[href^="mailto:"] {
    position: absolute;
    top: 0;
    left: 0;
-   width: 100%;
+   width: 25%;
    height: 100%;
    background: white;
+}
+
+.mobile-nav::after {
+   content: "";
+   display: block;
+   position: absolute;
+   top: 0;
+   right: 0;
+   width: 28%;
+   height: 100%;
+   background: white;
+   z-index: -1
 }
 
 .site-main {
