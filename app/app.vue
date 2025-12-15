@@ -32,11 +32,17 @@
 
   onMounted(() => {
     // Show mobile navigation when scrolling up
-    const mobileNav = document.querySelector('.mobile-nav');
+   const mobileNav = document.querySelector('.mobile-nav');
+	let lastScrollTop = 0;
+	let deltaY;
 
-    window.addEventListener('wheel', (e) => {
-      mobileNav.classList.toggle('active', e.deltaY < 0 && window.scrollY > 200);
-    });
+	window.addEventListener("scroll", function() {
+		const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+		deltaY = scrollTop - lastScrollTop;
+		lastScrollTop = scrollTop;
+		
+		mobileNav.classList.toggle('active', deltaY < 0 && window.scrollY > 200);
+	}, false);
 
    // Init custom scrollbars
       const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] =
