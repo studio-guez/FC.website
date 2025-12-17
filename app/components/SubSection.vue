@@ -1,6 +1,8 @@
 <template>
    <div class="accordion" ref="el" :style="{color: props.header.color}">
-      <header v-html="props.header.text"  class="accordion-trigger"/>
+      <header class="accordion-trigger">
+         <div v-html="props.header.text" />
+      </header>
       <div class="accordion-panel">
          <Section :blocks="props.blocks"/>
       </div>
