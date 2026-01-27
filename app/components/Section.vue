@@ -53,29 +53,19 @@
 
       </template>
 
-      <ClientOnly>
-         <teleport to="body">
-            <div v-if="lightboxOpen" class="lightbox" :style="{ color: lightboxColor }" @click.self="closeLightbox">
-               <button class="lightbox-close" type="button" aria-label="Close" @click="closeLightbox">✗</button>
-               <img class="lightbox-image" :src="lightboxImages[lightboxIndex]?.url" :srcset="lightboxImages[lightboxIndex]?.srcset" sizes="100vw" :alt="lightboxImages[lightboxIndex]?.alt">
-               <div class="lightbox-caption">{{ lightboxIndex + 1 }}/{{ lightboxImages.length }}</div>
-            </div>
-         </teleport>
-      </ClientOnly>
+      <Lightbox ref="lightboxRef" />
    </section>
 </template>
 
 <script setup lang="ts">
    import { onBeforeUnmount, onMounted, ref } from 'vue';
    import { useOverlayScrollbars } from "overlayscrollbars-vue";
+   import Lightbox from './Lightbox.vue';
 
    const props = defineProps(['blocks']);
    const galleryStrips = ref<HTMLElement[]>([]);
    const galleryScrollbars: Array<() => any> = [];
-   const lightboxOpen = ref(false);
-   const lightboxImages = ref<any[]>([]);
-   const lightboxIndex = ref(0);
-   const lightboxColor = ref<string | null>(null);
+   const lightboxRef = ref<InstanceType<typeof Lightbox> | null>(null);
 
    onMounted(() => {
       galleryStrips.value.forEach((el) => {
@@ -100,43 +90,10 @@
    });
 
    function openLightbox(images: any[], index: number, color: string) {
-      lightboxImages.value = images || [];
-      lightboxIndex.value = index || 0;
-      lightboxColor.value = color || null;
-      lightboxOpen.value = true;
-      document.body.dataset.lightboxOpen = 'true';
+      lightboxRef.value?.openAt(images, index, color);
    }
-
-   function closeLightbox() {
-      lightboxOpen.value = false;
-      lightboxColor.value = null;
-      delete document.body.dataset.lightboxOpen;
-   }
-
-   function onKeyDown(e: KeyboardEvent) {
-      if (!lightboxOpen.value) return;
-      if (e.key === 'Escape') {
-         closeLightbox();
-         return;
-      }
-      if (e.key === 'ArrowRight') {
-         e.preventDefault();
-         lightboxIndex.value = (lightboxIndex.value + 1) % lightboxImages.value.length;
-      }
-      if (e.key === 'ArrowLeft') {
-         e.preventDefault();
-         lightboxIndex.value =
-            (lightboxIndex.value - 1 + lightboxImages.value.length) % lightboxImages.value.length;
-      }
-   }
-
-   onMounted(() => {
-      window.addEventListener('keydown', onKeyDown);
-   });
 
    onBeforeUnmount(() => {
-      window.removeEventListener('keydown', onKeyDown);
-      delete document.body.dataset.lightboxOpen;
       galleryScrollbars.forEach((getInstance) => {
          const instance = getInstance();
          if (instance) instance.destroy();
