@@ -31,7 +31,7 @@
             <div class="gallery-strip">
                <div v-for="(image, index) in block.images" :key="image.id" class="gallery-image">
                   <div class="gallery-caption">{{ index + 1 }}/{{ block.images.length }}</div>
-                  <img :src="image.url" :alt="image.alt">
+                  <img :src="image.url" :srcset="image.srcset" sizes="60vh" :alt="image.alt">
                </div>
             </div>
          </div>

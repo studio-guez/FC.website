@@ -46,7 +46,8 @@
          select: {
             id: true,
             url: true,
-            alt: true
+            alt: true,
+            srcset: 'file.srcset([640, 960, 1280, 1920])'
          }
       },
       video: 'block.content.video.toFile',
