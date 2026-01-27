@@ -22,7 +22,7 @@
          <!-- Video -->
          <div v-if="block.type === 'video'" class="video mb-1" :class="{mobile: block.mobile}" :style="{color: block.color}">
             <h4 v-if="block.titleText" class="mb-1">{{ block.titleText }}</h4>
-            <video controls :src="block.video.url" />
+            <VideoPlayer :src="block.video?.url" :poster="block.video?.poster?.url" :color="block.color" />
          </div>
 
          <!-- Gallery -->
@@ -61,6 +61,7 @@
    import { onBeforeUnmount, onMounted, ref } from 'vue';
    import { useOverlayScrollbars } from "overlayscrollbars-vue";
    import Lightbox from './Lightbox.vue';
+   import VideoPlayer from './VideoPlayer.vue';
 
    const props = defineProps(['blocks']);
    const galleryStrips = ref<HTMLElement[]>([]);

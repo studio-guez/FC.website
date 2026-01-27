@@ -323,6 +323,103 @@ h5 {
    left: var(--site-margin);
 }
 
+.video-player {
+   position: relative;
+   display: flex;
+   align-items: center;
+}
+
+.video-player .video-controls {
+   opacity: 0;
+   pointer-events: none;
+   transition: opacity 0.2s ease;
+   display: flex;
+   align-items: center;
+   position: absolute;
+   width: 100%;
+   padding: 0.25rem;
+   gap: 0.5rem;
+   bottom: 0;
+   box-sizing: border-box;
+}
+
+.video-player.is-started:hover .video-controls {
+   opacity: 1;
+   pointer-events: auto;
+}
+
+.video-progress {
+   -webkit-appearance: none;
+   appearance: none;
+   height: 10px;
+   border-radius: 999px;
+   background: #fff;
+}
+
+.video-progress::-webkit-slider-runnable-track {
+   height: 10px;
+   border-radius: 999px;
+   background: #fff;
+}
+
+.video-progress::-webkit-slider-thumb {
+   -webkit-appearance: none;
+   appearance: none;
+   width: 20px;
+   height: 20px;
+   border-radius: 50%;
+   background: currentColor;
+   margin-top: -5px;
+}
+
+.video-progress::-moz-range-track {
+   height: 10px;
+   border-radius: 999px;
+   background: #fff;
+}
+
+.video-progress::-moz-range-progress {
+   height: 10px;
+   border-radius: 999px;
+   background: currentColor;
+}
+
+.video-progress::-moz-range-thumb {
+   width: 20px;
+   height: 20px;
+   border: none;
+   border-radius: 50%;
+   background: currentColor;
+}
+
+.video-progress {
+   flex: 1;
+}
+
+.video-control {
+   border: none;
+   background: none;
+   padding: 0;
+   width: 1.5rem;
+   height: 1.5rem;
+   color: inherit;
+   cursor: pointer;
+}
+
+.video-control svg {
+   width: 100%;
+   height: auto;
+}
+
+.video-control.video-big-play {
+   position: absolute;
+   top: calc(50% - 3rem);
+   left: calc(50% - 3rem);  
+   width: 6rem;
+   height: 6rem;
+   cursor: pointer;
+}
+
 @media (max-width: 1024px) {
    :root {
       font-size: 21px;
