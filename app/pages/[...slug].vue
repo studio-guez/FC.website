@@ -32,7 +32,28 @@
    const pageQuery = pathSegments.length ? `site.find('${fullPageSlug}')` : 'site';
    const layoutQuery = pathSegments.length ? 'page.sections.toLayouts' : 'site.sections.toLayouts';
 
-   // TODO: Try to reduce duplication in the query
+   const baseBlockSelect = {
+      type: true,
+      color: true,
+      mobile: 'block.mobile.toBool',
+      label: true,
+      url: true,
+      titleText: 'block.content.title',
+      text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText',
+      image: 'block.content.image.toFile',
+      images: {
+         query: 'block.content.images.toFiles',
+         select: {
+            id: true,
+            url: true,
+            alt: true
+         }
+      },
+      video: 'block.content.video.toFile',
+      file: 'block.content.file.toFile',
+      cornerRadius: 'block.content.cornerRadius',
+   };
+
    const body = {
       query: pageQuery,
       select: {
@@ -45,15 +66,7 @@
                   select: {
                      blocks: {
                         select: {
-                           type: true,
-                           color: true,
-                           mobile: 'block.mobile.toBool',
-                           label: true,
-                           url: true,
-                           text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText',
-                           image: 'block.content.image.toFile',
-                           file: 'block.content.file.toFile',
-                           cornerRadius: 'block.content.cornerRadius',
+                           ...baseBlockSelect,
                            title: {
                               query: 'block.content.title.toBlocks',
                               select: {
@@ -63,17 +76,7 @@
                            },
                            content: {
                               query: 'block.content.content.toBlocks',
-                              select: {
-                                 type: true,
-                                 color: true,
-                                 mobile: 'block.mobile.toBool',
-                                 label: true,
-                                 url: true,
-                                 text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText',
-                                 image: 'block.content.image.toFile',
-                                 file: 'block.content.file.toFile',
-                                 cornerRadius: 'block.content.cornerRadius'
-                              }
+                              select: baseBlockSelect
                            }
                         }
                      }

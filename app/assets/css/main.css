@@ -214,6 +214,35 @@ h5 {
    height: auto;
 }
 
+.video video {
+   display: block;
+   width: 100%;
+   height: auto;
+}
+
+.gallery-strip {
+   display: flex;
+   overflow-x: scroll;
+   gap: 0.35rem;
+}
+
+.gallery-title {
+   margin-bottom: 0.5rem;
+}
+
+.gallery-image {
+   flex: 0 0 auto;
+}
+
+.gallery-image img {
+   height: 28rem;
+   width: auto;
+}
+
+.gallery-caption {
+   margin-bottom: 0.35rem
+}
+
 .split-scroll {
    display: grid;
    max-height: 100vh;

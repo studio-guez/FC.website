@@ -19,6 +19,23 @@
             <a :href="block.url" target="_blank">{{ block.label }}</a>
          </div>
 
+         <!-- Video -->
+         <div v-if="block.type === 'video'" class="video mb-1" :class="{mobile: block.mobile}" :style="{color: block.color}">
+            <h4 v-if="block.titleText" class="mb-1">{{ block.titleText }}</h4>
+            <video controls :src="block.video.url" />
+         </div>
+
+         <!-- Gallery -->
+         <div v-if="block.type === 'gallery'" class="gallery mb-1" :class="{mobile: block.mobile}" :style="{color: block.color, '--gallery-scrollbar-color': block.color}">
+            <h4 v-if="block.titleText" class="gallery-title">{{ block.titleText }}</h4>
+            <div class="gallery-strip">
+               <div v-for="(image, index) in block.images" :key="image.id" class="gallery-image">
+                  <div class="gallery-caption">{{ index + 1 }}/{{ block.images.length }}</div>
+                  <img :src="image.url" :alt="image.alt">
+               </div>
+            </div>
+         </div>
+
          <!-- Subsections -->
           <section v-if="block.type === 'subsection'" class="subsection mb-1">
             <SubSection :header="block.title[0]" :blocks="block.content"/>
