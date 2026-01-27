@@ -30,7 +30,7 @@
             <h4 v-if="block.titleText" class="gallery-title">{{ block.titleText }}</h4>
             <div class="gallery-strip" ref="galleryStrips">
                <div class="gallery-strip-inner">
-               <div v-for="(image, index) in block.images" :key="image.id" class="gallery-image" @click="openLightbox(block.images, index)">
+               <div v-for="(image, index) in block.images" :key="image.id" class="gallery-image" @click="openLightbox(block.images, index, block.color)">
                   <div class="gallery-caption">{{ index + 1 }}/{{ block.images.length }}</div>
                   <img :src="image.url" :srcset="image.srcset" sizes="60vh" :alt="image.alt">
                </div>
@@ -55,9 +55,10 @@
 
       <ClientOnly>
          <teleport to="body">
-            <div v-if="lightboxOpen" class="lightbox" @click.self="closeLightbox">
+            <div v-if="lightboxOpen" class="lightbox" :style="{ color: lightboxColor }" @click.self="closeLightbox">
                <button class="lightbox-close" type="button" aria-label="Close" @click="closeLightbox">✗</button>
                <img class="lightbox-image" :src="lightboxImages[lightboxIndex]?.url" :srcset="lightboxImages[lightboxIndex]?.srcset" sizes="100vw" :alt="lightboxImages[lightboxIndex]?.alt">
+               <div class="lightbox-caption">{{ lightboxIndex + 1 }}/{{ lightboxImages.length }}</div>
             </div>
          </teleport>
       </ClientOnly>
@@ -74,6 +75,7 @@
    const lightboxOpen = ref(false);
    const lightboxImages = ref<any[]>([]);
    const lightboxIndex = ref(0);
+   const lightboxColor = ref<string | null>(null);
 
    onMounted(() => {
       galleryStrips.value.forEach((el) => {
@@ -97,15 +99,17 @@
       });
    });
 
-   function openLightbox(images: any[], index: number) {
+   function openLightbox(images: any[], index: number, color: string) {
       lightboxImages.value = images || [];
       lightboxIndex.value = index || 0;
+      lightboxColor.value = color || null;
       lightboxOpen.value = true;
       document.body.dataset.lightboxOpen = 'true';
    }
 
    function closeLightbox() {
       lightboxOpen.value = false;
+      lightboxColor.value = null;
       delete document.body.dataset.lightboxOpen;
    }
 

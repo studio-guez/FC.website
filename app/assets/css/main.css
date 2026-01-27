@@ -223,7 +223,7 @@ h5 {
 .gallery-strip {
    overflow: hidden;
    width: 100%;
-   padding-bottom: 0.75rem;
+   padding-bottom: 0.5rem;
 }
 
 .gallery-strip-inner {
@@ -308,13 +308,19 @@ h5 {
    position: absolute;
    top: var(--site-margin);
    right: var(--site-margin);
-   border: none;
-   background: none;
+   border: inherit;
+   background: inherit;
    font-size: 2rem;
    margin-top: -0.35em;
    margin-right: -0.25em;
-   color: var(--scrollbar-color);
    cursor: pointer;
+   color: inherit;
+}
+
+.lightbox-caption {
+   position: absolute;
+   top: var(--site-margin);
+   left: var(--site-margin);
 }
 
 @media (max-width: 1024px) {
