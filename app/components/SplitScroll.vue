@@ -91,8 +91,16 @@
       }
 
       function handleWheel(e) {
+         // Blocks scrolling when lightbox is open
+         if (document.body.dataset.lightboxOpen === 'true') {
+            e.preventDefault();
+            return;
+         };
+
+         // Don't prevent horizontal scrolling
          const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY);
          if (isHorizontalScroll) return;
+
          e.preventDefault();
 
          const closestSection = getClosestToViewport(splitScrollSections);

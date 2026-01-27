@@ -77,15 +77,10 @@
 
    onMounted(() => {
       galleryStrips.value.forEach((el) => {
-         const contentEl = el.querySelector('.gallery-strip-inner');
          const [initGalleryOverlayScrollbars, getGalleryOverlayScrollbarsInstance] =
             useOverlayScrollbars({
                defer: true,
                options: {
-                  elements: {
-                     viewport: el,
-                     content: contentEl,
-                  },
                   overflow: {
                      x: 'scroll',
                      y: 'hidden',
@@ -106,10 +101,12 @@
       lightboxImages.value = images || [];
       lightboxIndex.value = index || 0;
       lightboxOpen.value = true;
+      document.body.dataset.lightboxOpen = 'true';
    }
 
    function closeLightbox() {
       lightboxOpen.value = false;
+      delete document.body.dataset.lightboxOpen;
    }
 
    function onKeyDown(e: KeyboardEvent) {
@@ -135,6 +132,7 @@
 
    onBeforeUnmount(() => {
       window.removeEventListener('keydown', onKeyDown);
+      delete document.body.dataset.lightboxOpen;
       galleryScrollbars.forEach((getInstance) => {
          const instance = getInstance();
          if (instance) instance.destroy();
