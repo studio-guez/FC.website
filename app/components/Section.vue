@@ -119,9 +119,11 @@
          return;
       }
       if (e.key === 'ArrowRight') {
+         e.preventDefault();
          lightboxIndex.value = (lightboxIndex.value + 1) % lightboxImages.value.length;
       }
       if (e.key === 'ArrowLeft') {
+         e.preventDefault();
          lightboxIndex.value =
             (lightboxIndex.value - 1 + lightboxImages.value.length) % lightboxImages.value.length;
       }

@@ -237,6 +237,7 @@ h5 {
 
 .gallery-image {
    flex: 0 0 auto;
+   cursor: pointer;
 }
 
 .gallery-image img {
@@ -290,7 +291,7 @@ h5 {
    left: 0;
    width: 100%;
    height: 100%;
-   background-color: rgba(255,255,255,0.85);
+   background-color: rgba(255,255,255,0.9);
    box-sizing: border-box;
 }
 
@@ -300,7 +301,6 @@ h5 {
    width: auto;
    height: 100%;
    object-fit: contain;
-   cursor: pointer;
 }
 
 .lightbox-close {
@@ -309,8 +309,9 @@ h5 {
    right: var(--site-margin);
    border: none;
    background: none;
-   font-size: 3rem;
-   line-height: 0.7em;
+   font-size: 2rem;
+   margin-top: -0.35em;
+   margin-right: -0.25em;
    color: var(--scrollbar-color);
    cursor: pointer;
 }
