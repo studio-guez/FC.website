@@ -91,7 +91,8 @@
       }
 
       function handleWheel(e) {
-         // TODO: There seems to be some extra scroll when there are multiple split scroll section on the page
+         const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+         if (isHorizontalScroll) return;
          e.preventDefault();
 
          const closestSection = getClosestToViewport(splitScrollSections);
