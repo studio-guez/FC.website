@@ -309,7 +309,7 @@ h5 {
    top: var(--site-margin);
    right: var(--site-margin);
    border: inherit;
-   background: inherit;
+   background: none;
    font-size: 2rem;
    margin-top: -0.35em;
    margin-right: -0.25em;
