@@ -221,8 +221,12 @@ h5 {
 }
 
 .gallery-strip {
+   overflow: hidden;
+   width: 100%;
+}
+
+.gallery-strip-inner {
    display: flex;
-   overflow-x: scroll;
    gap: 0.35rem;
 }
 
@@ -237,6 +241,12 @@ h5 {
 .gallery-image img {
    height: 28rem;
    width: auto;
+}
+
+.os-scrollbar.gallery {
+   --os-handle-bg: var(--gallery-scrollbar-color);
+   --os-handle-bg-hover: var(--gallery-scrollbar-color);
+   --os-handle-bg-active: var(--gallery-scrollbar-color);
 }
 
 .gallery-caption {
