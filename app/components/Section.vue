@@ -30,12 +30,12 @@
             <h4 v-if="block.titleText" class="gallery-title">{{ block.titleText }}</h4>
             <div class="gallery-strip" ref="galleryStrips">
                <div class="gallery-strip-inner">
-                  <div v-for="(image, index) in block.images" :key="image.id" class="gallery-image">
-                     <div class="gallery-caption">{{ index + 1 }}/{{ block.images.length }}</div>
-                     <img :src="image.url" :srcset="image.srcset" sizes="60vh" :alt="image.alt">
-                  </div>
+               <div v-for="(image, index) in block.images" :key="image.id" class="gallery-image" @click="openLightbox(block.images, index)">
+                  <div class="gallery-caption">{{ index + 1 }}/{{ block.images.length }}</div>
+                  <img :src="image.url" :srcset="image.srcset" sizes="60vh" :alt="image.alt">
                </div>
             </div>
+         </div>
          </div>
 
          <!-- Subsections -->
@@ -52,6 +52,15 @@
          </div>
 
       </template>
+
+      <ClientOnly>
+         <teleport to="body">
+            <div v-if="lightboxOpen" class="lightbox" @click.self="closeLightbox">
+               <button class="lightbox-close" type="button" aria-label="Close" @click="closeLightbox">✗</button>
+               <img class="lightbox-image" :src="lightboxImages[lightboxIndex]?.url" :srcset="lightboxImages[lightboxIndex]?.srcset" sizes="100vw" :alt="lightboxImages[lightboxIndex]?.alt">
+            </div>
+         </teleport>
+      </ClientOnly>
    </section>
 </template>
 
@@ -62,6 +71,9 @@
    const props = defineProps(['blocks']);
    const galleryStrips = ref<HTMLElement[]>([]);
    const galleryScrollbars: Array<() => any> = [];
+   const lightboxOpen = ref(false);
+   const lightboxImages = ref<any[]>([]);
+   const lightboxIndex = ref(0);
 
    onMounted(() => {
       galleryStrips.value.forEach((el) => {
@@ -90,7 +102,37 @@
       });
    });
 
+   function openLightbox(images: any[], index: number) {
+      lightboxImages.value = images || [];
+      lightboxIndex.value = index || 0;
+      lightboxOpen.value = true;
+   }
+
+   function closeLightbox() {
+      lightboxOpen.value = false;
+   }
+
+   function onKeyDown(e: KeyboardEvent) {
+      if (!lightboxOpen.value) return;
+      if (e.key === 'Escape') {
+         closeLightbox();
+         return;
+      }
+      if (e.key === 'ArrowRight') {
+         lightboxIndex.value = (lightboxIndex.value + 1) % lightboxImages.value.length;
+      }
+      if (e.key === 'ArrowLeft') {
+         lightboxIndex.value =
+            (lightboxIndex.value - 1 + lightboxImages.value.length) % lightboxImages.value.length;
+      }
+   }
+
+   onMounted(() => {
+      window.addEventListener('keydown', onKeyDown);
+   });
+
    onBeforeUnmount(() => {
+      window.removeEventListener('keydown', onKeyDown);
       galleryScrollbars.forEach((getInstance) => {
          const instance = getInstance();
          if (instance) instance.destroy();

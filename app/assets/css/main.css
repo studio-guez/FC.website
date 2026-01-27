@@ -280,6 +280,41 @@ h5 {
    margin-right: 0.5em
 }
 
+.lightbox {
+   padding: var(--site-margin);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(255,255,255,0.85);
+   box-sizing: border-box;
+}
+
+.lightbox-image {
+   max-height: calc(100vh - (var(--site-margin) * 2));
+   max-width: calc(100vw - (var(--site-margin) * 2));
+   width: auto;
+   height: 100%;
+   object-fit: contain;
+   cursor: pointer;
+}
+
+.lightbox-close {
+   position: absolute;
+   top: var(--site-margin);
+   right: var(--site-margin);
+   border: none;
+   background: none;
+   font-size: 3rem;
+   line-height: 0.7em;
+   color: var(--scrollbar-color);
+   cursor: pointer;
+}
+
 @media (max-width: 1024px) {
    :root {
       font-size: 21px;
