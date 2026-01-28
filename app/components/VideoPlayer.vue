@@ -112,6 +112,12 @@
    }
 
    function toggleFullscreen() {
+      const el = videoEl.value;
+      if (!el) return;
+      if ((el as any).webkitEnterFullscreen) {
+         (el as any).webkitEnterFullscreen();
+         return;
+      }
       if (document.fullscreenElement) {
          document.exitFullscreen();
       } else {
@@ -128,9 +134,13 @@
          videoEl.value.load();
       }
       document.addEventListener('fullscreenchange', onFullscreenChange);
+      videoEl.value?.addEventListener('webkitbeginfullscreen', () => (isFullscreen.value = true));
+      videoEl.value?.addEventListener('webkitendfullscreen', () => (isFullscreen.value = false));
    });
 
    onBeforeUnmount(() => {
       document.removeEventListener('fullscreenchange', onFullscreenChange);
+      videoEl.value?.removeEventListener('webkitbeginfullscreen', () => (isFullscreen.value = true));
+      videoEl.value?.removeEventListener('webkitendfullscreen', () => (isFullscreen.value = false));
    });
 </script>
