@@ -372,7 +372,7 @@ h5:not(:last-child) {
 
 .video-progress {
    --thumb-height: 20px;
-   --track-height: 8px;
+   --track-height: 6px;
    --track-color: #fff;
    --clip-edges: 6px;
    color: currentColor;
