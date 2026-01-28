@@ -309,6 +309,7 @@ h5 {
    width: auto;
    height: 100%;
    object-fit: contain;
+   pointer-events: none;
 }
 
 .lightbox-close {
@@ -317,6 +318,7 @@ h5 {
    right: var(--site-margin);
    border: inherit;
    background: none;
+   padding: 0;
    font-size: 2rem;
    margin-top: -0.35em;
    margin-right: -0.25em;
