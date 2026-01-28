@@ -20,7 +20,7 @@
             @click="togglePlay"
             :aria-label="isPlaying ? 'Pause' : 'Play'"
          >
-            <span class="video-icon" aria-hidden="true" v-html="playIcon"></span>
+            <div class="video-icon" aria-hidden="true" v-html="playIcon"></div>
          </button>
       </div>
 
