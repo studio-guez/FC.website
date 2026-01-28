@@ -25,7 +25,6 @@
                   <input type="text" name="mcaptcha__token" id="mcaptcha__token"/>
                 </label>
                 <div id="mcaptcha__widget-container"></div>
-                <component is="script" src="https://unpkg.com/@mcaptcha/vanilla-glue@0.1.0-rc2/dist/index.js"></component>
               </div>
               <div class="inf-submit">
                 <button type="submit" name="">Envoyer </button>
@@ -38,13 +37,30 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { defineProps, onBeforeUnmount, onMounted, ref } from 'vue'
 
 const success = ref(false);
 
 const props = defineProps<{
     message?: string
 }>()
+
+let captchaScript: HTMLScriptElement | null = null
+
+onMounted(() => {
+  // Load on client after hydration to avoid SSR mismatch.
+  captchaScript = document.createElement('script')
+  captchaScript.src = 'https://unpkg.com/@mcaptcha/vanilla-glue@0.1.0-rc2/dist/index.js'
+  captchaScript.async = true
+  document.body.appendChild(captchaScript)
+})
+
+onBeforeUnmount(() => {
+  if (captchaScript?.parentNode) {
+    captchaScript.parentNode.removeChild(captchaScript)
+  }
+  captchaScript = null
+})
 
 function onSubmit(e) {
   success.value = true;
