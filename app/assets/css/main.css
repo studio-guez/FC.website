@@ -20,7 +20,7 @@ html {
 body {
    display: flex;
    flex-flow: column;
-   padding: var(--site-margin);
+   padding: var(--site-margin) var(--site-margin) 0;
    padding-right: 14px;
    overflow-x: hidden;
 }
@@ -149,21 +149,24 @@ a[href^="mailto:"] {
 
 h2 {
    font-size: 4rem;
-   margin-bottom: 1rem;
 }
 
 h3 {
    font-size: 3rem;
-   margin-bottom: 1rem;
 }
 
 h4 {
    font-size: 2rem;
-   margin-bottom: 1rem;
 }
 
 h5 {
    font-size: 1rem;
+}
+
+h2:not(:last-child),
+h3:not(:last-child)
+h4:not(:last-child)
+h5:not(:last-child) {
    margin-bottom: 1rem;
 }
 
@@ -194,6 +197,10 @@ h5 {
   position: absolute;
   left: -1.8em;
   font-feature-settings: "ss01" 1;
+}
+
+.section {
+   padding-bottom: var(--site-margin);
 }
 
 .image {
@@ -560,6 +567,7 @@ h5 {
       align-items: center;
       gap: 1rem;
       margin-top: 2rem;
+      margin-bottom: var(--site-margin);
       order: 2;
    }
 
