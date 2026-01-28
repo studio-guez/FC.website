@@ -6,7 +6,9 @@
             class="video-media"
             :src="src"
             :poster="poster"
+            preload="metadata"
             playsinline
+            webkit-playsinline
             @click="togglePlay"
             @dblclick="toggleFullscreen"
             @play="onPlay"
@@ -122,6 +124,9 @@
    }
 
    onMounted(() => {
+      if (videoEl.value) {
+         videoEl.value.load();
+      }
       document.addEventListener('fullscreenchange', onFullscreenChange);
    });
 
