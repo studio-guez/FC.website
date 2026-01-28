@@ -37,7 +37,6 @@
             max="100"
             step="0.1"
             v-model="seekPercent"
-            @input="onSeek"
             @change="onSeek"
             :aria-label="'Progress'"
          >
@@ -82,6 +81,7 @@
       if (!duration.value) return 0;
       return (currentTime.value / duration.value) * 100;
    });
+
    const seekPercent = ref(0);
 
    function togglePlay() {
@@ -150,6 +150,10 @@
 
    onMounted(() => {
       document.addEventListener('fullscreenchange', onFullscreenChange);
+
+      if (videoEl.value.readyState >= 2) {
+         onLoadedMetadata();
+      }
    });
 
    onBeforeUnmount(() => {
