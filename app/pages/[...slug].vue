@@ -47,6 +47,8 @@
             id: true,
             url: true,
             alt: true,
+            width: true,
+            height: true,
             srcset: 'file.srcset([640, 960, 1280, 1920])'
          }
       },

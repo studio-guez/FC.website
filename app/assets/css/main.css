@@ -11,6 +11,12 @@
    --site-margin: 0.75rem
 }
 
+html {
+   -moz-text-size-adjust: none;
+   -webkit-text-size-adjust: none;
+   text-size-adjust: none;
+}
+
 body {
    display: flex;
    flex-flow: column;
@@ -223,7 +229,7 @@ h5 {
 .gallery-strip {
    overflow: hidden;
    width: 100%;
-   padding-bottom: 0.5rem;
+   padding-bottom: 1rem;
 }
 
 .gallery-strip-inner {
@@ -241,6 +247,7 @@ h5 {
 }
 
 .gallery-image img {
+   display: block;
    height: 28rem;
    width: auto;
 }
