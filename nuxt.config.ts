@@ -9,6 +9,11 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/reset.css', '~/assets/css/main.css'],
   devtools: { enabled: true },
+  vue: {
+    compilerOptions: {
+      comments: false,
+    },
+  },
 
   runtimeConfig: {
     apiAuthEmail: '',
