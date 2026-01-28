@@ -12,7 +12,6 @@
             @play="onPlay"
             @pause="onPause"
             @timeupdate="onTimeUpdate"
-            @loadedmetadata="onLoadedMetadata"
          />
          <button
             v-if="!hasStarted"
@@ -69,29 +68,16 @@
 
    const videoEl = ref<HTMLVideoElement | null>(null);
    const containerEl = ref<HTMLElement | null>(null);
-
    const isPlaying = ref(false);
    const hasStarted = ref(false);
    const muted = ref(false);
-   const duration = ref(0);
-   const currentTime = ref(0);
    const isFullscreen = ref(false);
-
-   const progressPercent = computed(() => {
-      if (!duration.value) return 0;
-      return (currentTime.value / duration.value) * 100;
-   });
-
    const seekPercent = ref(0);
 
    function togglePlay() {
       const el = videoEl.value;
-      if (!el) return;
       if (el.paused) {
-         const playPromise = el.play();
-         if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {});
-         }
+         el.play();
       } else {
          el.pause();
       }
@@ -106,41 +92,28 @@
       isPlaying.value = false;
    }
 
-   function onLoadedMetadata() {
-      const el = videoEl.value;
-      if (!el) return;
-      duration.value = el.duration || 0;
-   }
-
    function onTimeUpdate() {
       const el = videoEl.value;
-      if (!el) return;
-      currentTime.value = el.currentTime || 0;
-      seekPercent.value = progressPercent.value;
+      seekPercent.value = (el.currentTime / el.duration) * 100;
    }
 
    function onSeek(event: Event) {
       const el = videoEl.value;
-      if (!el || !duration.value) return;
-      const target = event.target as HTMLInputElement;
-      const nextPercent = Number(target.value) || 0;
-      el.currentTime = (nextPercent / 100) * duration.value;
+      const nextPercent = Number(event.target.value);
+      el.currentTime = (nextPercent / 100) * videoEl.value.duration;
    }
 
    function toggleMute() {
       const el = videoEl.value;
-      if (!el) return;
       el.muted = !el.muted;
       muted.value = el.muted;
    }
 
    function toggleFullscreen() {
-      const el = containerEl.value;
-      if (!el) return;
       if (document.fullscreenElement) {
          document.exitFullscreen();
       } else {
-         el.requestFullscreen();
+         containerEl.value.requestFullscreen();
       }
    }
 
@@ -150,10 +123,6 @@
 
    onMounted(() => {
       document.addEventListener('fullscreenchange', onFullscreenChange);
-
-      if (videoEl.value.readyState >= 2) {
-         onLoadedMetadata();
-      }
    });
 
    onBeforeUnmount(() => {
