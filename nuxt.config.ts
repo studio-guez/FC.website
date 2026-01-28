@@ -7,6 +7,11 @@ export default defineNuxtConfig({
       link: [{rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}]
     }
   },
+  vue: {
+    compilerOptions: {
+      comments: false,
+    },
+  },
   css: ['~/assets/css/reset.css', '~/assets/css/main.css'],
   devtools: { enabled: true },
   runtimeConfig: {
