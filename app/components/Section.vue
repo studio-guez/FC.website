@@ -26,17 +26,7 @@
          </div>
 
          <!-- Gallery -->
-         <div v-if="block.type === 'gallery'" class="gallery mb-1" :class="{mobile: block.mobile}" :style="{color: block.color, '--gallery-scrollbar-color': block.color}">
-            <h4 v-if="block.titleText" class="gallery-title">{{ block.titleText }}</h4>
-            <div class="gallery-strip" ref="galleryStrips">
-               <div class="gallery-strip-inner">
-               <div v-for="(image, index) in block.images" :key="image.id" class="gallery-image" @click="openLightbox(block.images, index, block.color)">
-                  <div class="gallery-caption">{{ index + 1 }}/{{ block.images.length }}</div>
-                  <img :src="image.url" :srcset="image.srcset" sizes="60vh" :alt="image.alt" :width="image.width" :height="image.height">
-               </div>
-            </div>
-         </div>
-         </div>
+         <Gallery :block="block"></Gallery>
 
          <!-- Subsections -->
           <section v-if="block.type === 'subsection'" class="subsection mb-1">
@@ -52,52 +42,12 @@
          </div>
 
       </template>
-
-      <Lightbox ref="lightboxRef" />
    </section>
 </template>
 
 <script setup lang="ts">
-   import { onBeforeUnmount, onMounted, ref } from 'vue';
-   import { useOverlayScrollbars } from "overlayscrollbars-vue";
-   import Lightbox from './Lightbox.vue';
    import VideoPlayer from './VideoPlayer.vue';
+   import Gallery from './Gallery.vue';
 
    const props = defineProps(['blocks']);
-   const galleryStrips = ref<HTMLElement[]>([]);
-   const galleryScrollbars: Array<() => any> = [];
-   const lightboxRef = ref<InstanceType<typeof Lightbox> | null>(null);
-
-   onMounted(() => {
-      galleryStrips.value.forEach((el) => {
-         const [initGalleryOverlayScrollbars, getGalleryOverlayScrollbarsInstance] =
-            useOverlayScrollbars({
-               defer: true,
-               options: {
-                  overflow: {
-                     x: 'scroll',
-                     y: 'hidden',
-                  },
-                  scrollbars: {
-                     theme: 'gallery',
-                     clickScroll: true,
-                  },
-               },
-            });
-
-         initGalleryOverlayScrollbars(el);
-         galleryScrollbars.push(getGalleryOverlayScrollbarsInstance);
-      });
-   });
-
-   function openLightbox(images: any[], index: number, color: string) {
-      lightboxRef.value?.openAt(images, index, color);
-   }
-
-   onBeforeUnmount(() => {
-      galleryScrollbars.forEach((getInstance) => {
-         const instance = getInstance();
-         if (instance) instance.destroy();
-      });
-   });
 </script>

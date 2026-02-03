@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-   // import { useRoute } from 'vue-router';
+   import Lightbox from '../components/Lightbox.vue';
    import { useRoute, navigateTo } from '#app';
    
    const route = useRoute();
@@ -34,6 +34,7 @@
 
    const baseBlockSelect = {
       type: true,
+      id: true,
       color: true,
       mobile: 'block.mobile.toBool',
       label: true,

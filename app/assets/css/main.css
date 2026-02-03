@@ -240,8 +240,34 @@ h5:not(:last-child) {
 }
 
 .gallery-strip-inner {
+   position: relative;
    display: flex;
    gap: 0.35rem;
+}
+
+.gallery-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+}
+
+.gallery-controls button {
+   border: none;
+   padding: 0;
+   background: none;
+   color: inherit;
+   font-family: inherit;
+   font-size: 2rem;
+   cursor: pointer;
+}
+
+.gallery-controls button:hover {
+   opacity: 0.6;
+}
+
+.gallery-controls {
+   display: flex;
+   gap: 0.5rem;
 }
 
 .gallery-title {
@@ -257,6 +283,7 @@ h5:not(:last-child) {
    display: block;
    height: 28rem;
    width: auto;
+   border-radius: 0.75rem;
 }
 
 .os-scrollbar.gallery {
