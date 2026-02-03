@@ -227,11 +227,6 @@ a[href^="mailto:"] {
    height: auto;
 }
 
-.video video {
-   display: block;
-   width: 100%;
-   height: auto;
-}
 
 .gallery-strip {
    overflow: hidden;
@@ -375,6 +370,13 @@ a[href^="mailto:"] {
 
 .video-stage {
    position: relative;
+   width: 100%
+}
+
+.video video {
+   width: 100%;
+   height: auto;
+   display: block;
 }
 
 .video-player .video-controls {
