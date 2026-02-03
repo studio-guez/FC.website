@@ -3,8 +3,8 @@
       <header class="gallery-header">
          <h4 v-if="block.titleText" class="gallery-title">{{ block.titleText }}</h4>
          <div class="gallery-controls">
-            <button @click="prevImage()" class="gallery-prev" aria-label="Previous image" :aria-controls="galleryId">←</button>
-            <button @click="nextImage()" class="gallery-next" aria-label="Next image" :aria-controls="galleryId">→</button>
+            <button @click="prevImage()" class="gallery-prev h4" aria-label="Previous image" :aria-controls="galleryId">←</button>
+            <button @click="nextImage()" class="gallery-next h4" aria-label="Next image" :aria-controls="galleryId">→</button>
          </div>
       </header>
       <div class="gallery-strip" ref="gallery-strip">
