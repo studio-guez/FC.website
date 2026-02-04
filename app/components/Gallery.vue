@@ -23,7 +23,7 @@
 <script setup lang="ts">
    import { onBeforeUnmount, onMounted, ref } from 'vue';
    import { useOverlayScrollbars } from "overlayscrollbars-vue";
-   import LightboxVue from "Lightbox.vue";
+   import LightboxVue from "./Lightbox.vue";
 
    const props = defineProps(['block', 'lightbox']);
    const galleryStrip = useTemplateRef('gallery-strip');
