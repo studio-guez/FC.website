@@ -129,17 +129,28 @@
       isFullscreen.value = !!document.fullscreenElement;
    }
 
+   function onResize() {
+      if (videoEl.value.offsetHeight > window.innerHeight) {
+         const ratio = videoEl.value.offsetWidth / videoEl.value.offsetHeight;
+         containerEl.value.style.maxWidth = (window.innerHeight * ratio) + 'px';
+      } else {
+         containerEl.value.style.maxWidth = '';
+      }
+   }
+
    onMounted(() => {
       if (videoEl.value) {
          videoEl.value.load();
       }
       document.addEventListener('fullscreenchange', onFullscreenChange);
+      window.addEventListener('resize', onResize);
       videoEl.value?.addEventListener('webkitbeginfullscreen', () => (isFullscreen.value = true));
       videoEl.value?.addEventListener('webkitendfullscreen', () => (isFullscreen.value = false));
    });
 
    onBeforeUnmount(() => {
       document.removeEventListener('fullscreenchange', onFullscreenChange);
+      document.removeEventListener('resize', onResize);
       videoEl.value?.removeEventListener('webkitbeginfullscreen', () => (isFullscreen.value = true));
       videoEl.value?.removeEventListener('webkitendfullscreen', () => (isFullscreen.value = false));
    });
