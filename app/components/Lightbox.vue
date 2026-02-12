@@ -2,7 +2,7 @@
    <ClientOnly>
       <teleport to="body">
          <div v-if="open" class="lightbox" :style="{ color }" @click.self="close">
-            <button class="lightbox-close" type="button" aria-label="Close" @click="close">✗</button>
+            <button class="lightbox-close h4" type="button" aria-label="Close" @click="close">✗</button>
             <img
                class="lightbox-image"
                :src="images[index]?.url"
