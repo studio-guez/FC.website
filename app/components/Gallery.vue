@@ -2,10 +2,6 @@
    <div v-if="block.type === 'gallery'" class="gallery mb-1" :class="{mobile: block.mobile}" :style="{color: block.color, '--gallery-scrollbar-color': block.color}">
       <header class="gallery-header">
          <h4 v-if="block.titleText" class="gallery-title">{{ block.titleText }}</h4>
-         <div class="gallery-controls">
-            <button @click="prevImage()" class="gallery-prev h4" aria-label="Previous image" :aria-controls="galleryId">←</button>
-            <button @click="nextImage()" class="gallery-next h4" aria-label="Next image" :aria-controls="galleryId">→</button>
-         </div>
       </header>
       <div class="gallery-strip" ref="gallery-strip">
          <div class="gallery-strip-inner" :id="galleryId" ref="gallery-images">
@@ -14,6 +10,10 @@
                <img :src="image.url" :srcset="image.srcset" sizes="60vh" :alt="image.alt" :width="image.width" :height="image.height">
             </div>
          </div>
+      </div>
+      <div class="gallery-controls">
+         <button @click="prevImage()" class="gallery-prev h4" aria-label="Previous image" :aria-controls="galleryId">←</button>
+         <button @click="nextImage()" class="gallery-next h4" aria-label="Next image" :aria-controls="galleryId">→</button>
       </div>
    </div>
 
