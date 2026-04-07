@@ -288,16 +288,12 @@ a[href^="mailto:"] {
 
 .split-scroll {
    display: grid;
-   max-height: 100vh;
-   overflow: hidden;
    grid-template-columns: 1fr 1fr;
    grid-column-gap: 0.25rem;
 }
 
 .split-scroll > * {
    overflow-x: hidden;
-   overflow-y: hidden;
-   max-height: 100vh;
    padding-right: calc(var(--site-margin)*2);
 }
 
