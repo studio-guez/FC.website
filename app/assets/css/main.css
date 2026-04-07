@@ -282,6 +282,8 @@ a[href^="mailto:"] {
    height: 28rem;
    width: auto;
    border-radius: 0.75rem;
+   background-color: #EFEFEF;
+   font-size: 0;
 }
 
 .os-scrollbar.gallery {

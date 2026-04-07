@@ -7,7 +7,7 @@
          <div class="gallery-strip-inner" :id="galleryId" ref="gallery-images">
             <div v-for="(image, index) in block.images" :key="image.id" class="gallery-image" @click="openLightbox(block.images, index, block.color)">
                <div class="gallery-caption">{{ index + 1 }}/{{ block.images.length }}</div>
-               <img :src="image.url" :srcset="image.srcset" sizes="60vh" :alt="image.alt" :width="image.width" :height="image.height">
+               <img :src="image.url" :srcset="image.srcset" sizes="60vh" :alt="image.alt !== '' ? image.alt : `${block.titleText} ${index}`" :width="image.width" :height="image.height" :loading="index > 3 ? 'lazy' : ''">
             </div>
          </div>
       </div>
