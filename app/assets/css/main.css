@@ -85,6 +85,10 @@ h5:not(:last-child) {
   font-feature-settings: "ss01" 1;
 }
 
+.text .small {
+   font-size: 0.8rem
+}
+
 hr {
    border: none;
    background-color: currentColor;
