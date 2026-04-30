@@ -541,7 +541,12 @@ a[href^="mailto:"] {
 
 .journal-header-title {
    grid-column: 2 / span all;  
-   margin-bottom: 3rem;
+   margin-bottom: 2rem;
+}
+
+.journal-header-filters {
+   height: 1rem;
+   grid-column: span 6;  
 }
 
 .article-list {
