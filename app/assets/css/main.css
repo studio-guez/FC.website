@@ -529,6 +529,7 @@ a[href^="mailto:"] {
 /* Journal */
 
 .journal {
+   min-height: calc(100vh - var(--site-margin)*2);
    color: #ff6400;
 }
 
@@ -557,6 +558,16 @@ a[href^="mailto:"] {
    display: flex;
    flex-direction: column;
    cursor: pointer;
+   text-decoration: inherit;
+}
+
+.article-list-item:hover {
+   opacity: 1;
+}
+
+.article-list-item:hover .article-thumbnail {
+   background-color: #ff6400;
+   color: white;
 }
 
 .article-list-item-header {
@@ -610,8 +621,47 @@ a[href^="mailto:"] {
    padding-top: 0.75rem;
 }
 
-.article .article-thumbnail {
+.article .article-header {
    grid-column: span 2;
+}
+
+.article-meta {
+   margin-top: .5em;
+   display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+}
+
+.inline-block {
+   display: inline-block;
+}
+
+.article-meta > * {
+   text-decoration: none;
+   border-bottom: 0.07em solid;
+}
+
+.article-meta .spacer {
+   flex-grow: 1;
+   flex-basis: 1em;
+}
+
+.article-tags {
+   margin-top: .5em;
+   padding: 0;
+   list-style: none;
+}
+
+.tag {
+   display: inline;
+}
+
+.tag a {
+   cursor: pointer;
+}
+
+.article-tags .tag:not(:last-child)::after {
+   content: ", ";
 }
 
 .article .article-content {

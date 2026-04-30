@@ -10,11 +10,24 @@
 	<main class="site-main journal">
 		<header class="journal-header">
 			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page?.title }}</NuxtLink></h1>
+			<div class="journal-header-filters small" v-if="page.filters.author">Articles de {{ page.filters.author.username }}</div>
 		</header>
 		<ul class="articles">
 			<li class="article" :id="article.slug" v-for="article in page?.children">
-				<header class="article-thumbnail">
-					<h2 class="article-thumbnail-title u" :style="{ '--title-length': article.title.length }">{{ article.title }}</h2>
+				<header class="article-header">
+					<div class="article-thumbnail">
+						<h2 class="article-thumbnail-title u" :style="{ '--title-length': article.title.length }">{{ article.title }}</h2>
+					</div>
+					<div class="article-meta small">
+						<span>{{ article.published }}</span>
+						<span class="spacer"></span>
+						<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.id}}" class="inline-block">
+							{{ article.author?.username }}
+						</NuxtLink>
+					</div>
+					<ul class="article-tags">
+						<li class="tag small" v-for="tag in article.tags"><NuxtLink>{{ tag }}</NuxtLink></li>
+					</ul>
 				</header>
 				<div class="article-content">
 					<template v-for="block in article.content">
@@ -34,36 +47,58 @@
 </template>
 
 <script setup>
+	const route = useRoute();
 
-	const { data, error } = await useFetch('/api/CMS_KQLRequest', {
+	const { data, error, pending } = await useFetch('/api/CMS_KQLRequest', {
 		method: 'POST',
-		body: {
-			query: 'site.find("journal")',
-			select: {
-				title: true,
-				children: {
-					query: 'page.children.filterBy("template", "article")',
-					select: {
-						title: true,
-						slug: true,
-						image_cover: 'page.image_cover.toFile',
-						published: 'page.published.toDate("d.m.y")',
-						content: {
-							query: 'page.text.toBlocks',
-							select: {
-								text: 'block.content.text',
-								image: 'block.content.image.toFile',
-								caption: 'block.content.caption'
+		key: `journal-data-${route.fullPath}`,
+		body: computed(() => {
+			let queryStr = "";
+	      if (route.query.author) {
+	     		queryStr += `.filterBy("author", "*=", "${route.query.author}")`;
+	      }
+
+			return {
+				query: 'site',
+				select: {
+					title: 'site.find("journal").title',
+					filters: {
+						query: 'kirby',
+						select: {
+							author: `kirby.users.find("${route.query.author}")`	
+						}
+					},
+					children: {
+						query: 'site.find("journal").children.filterBy("template", "article")' + queryStr,
+						select: {
+							title: true,
+							slug: true,
+							image_cover: 'page.image_cover.toFile',
+							published: 'page.published.toDate("d.m.y")',
+							author: 'page.author.toUser',
+							tags: 'page.tags.split(",")',
+							content: {
+								query: 'page.text.toBlocks',
+								select: {
+									text: 'block.content.text',
+									image: 'block.content.image.toFile',
+									caption: 'block.content.caption'
+								}
 							}
 						}
 					}
 				}
 			}
+		})
+	});
+
+	watch(pending, (isPending) => {
+		if (!isPending) {
+			window.scrollTo({ top: 0, behavior: 'instant' });
 		}
 	});
 
 	const page = computed(() => data.value?.result);
-
 	console.log(page.value);
 
 </script>
