@@ -11,11 +11,11 @@
 		<header class="journal-header">
 			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page?.title }}</NuxtLink></h1>
 			<div class="journal-header-filters">
-				<span class="small u" v-if="page.filters.author">Auteur·ice: {{ page.filters.author.username }} <NuxtLink to="/journal/articles">✗</NuxtLink></span>
-				<span class="small u" v-if="route.query.tag">Tag: {{ route.query.tag }} <NuxtLink to="/journal/articles">✗</NuxtLink></span>
+				<span class="small u" v-if="route.query.author">Auteur·ice: {{ page.filters.author.username }} <NuxtLink :to="{path: '/journal/articles', query: { tag: route.query.tag }}">✗</NuxtLink></span>
+				<span class="small u" v-if="route.query.tag">Tag: {{ route.query.tag }} <NuxtLink :to="{path: '/journal/articles', query: { author: route.query.author }}">✗</NuxtLink></span>
 			</div>
 		</header>
-		<ul class="articles">
+		<ul class="articles" v-if="!pending">
 			<li class="article" :id="article.slug" v-for="article in page?.children">
 				<header class="article-header">
 					<div class="article-thumbnail">
@@ -24,13 +24,14 @@
 					<div class="article-meta small">
 						<span>{{ article.published }}</span>
 						<span class="spacer"></span>
-						<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.username}}" class="inline-block">
+						<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.id, tag: route.query.tag }}" class="inline-block">
 							{{ article.author?.username }}
 						</NuxtLink>
 					</div>
 					<ul class="article-tags">
+						<p class="article-tags-header small">{{ article.tags.length > 1 ? "Tags" : "Tag" }}:</p>
 						<li class="tag small" v-for="tag in article.tags">
-							<NuxtLink :to="{path: '/journal/articles', query: { tag: tag }}">{{ tag }}</NuxtLink>
+							<NuxtLink :to="{path: '/journal/articles', query: { tag: tag, author: route.query.author }}">{{ tag }}</NuxtLink>
 						</li>
 					</ul>
 				</header>
