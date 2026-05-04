@@ -2,16 +2,17 @@
 	<Head>
 		<Title>{{ page?.title }}</Title>
 		<Style>
-	      :root {
-	        --scrollbar-color: #ff6400;
-	      }
-    </Style>
+			:root {
+			  --scrollbar-color: #ff6400;
+			}
+	 </Style>
 	</Head>
 	<main class="site-main journal">
 		<header class="journal-header">
 			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page?.title }}</NuxtLink></h1>
 			<div class="journal-header-filters">
 				<span class="small u" v-if="page.filters.author">Auteur·ice: {{ page.filters.author.username }} <NuxtLink to="/journal/articles">✗</NuxtLink></span>
+				<span class="small u" v-if="route.query.tag">Tag: {{ route.query.tag }} <NuxtLink to="/journal/articles">✗</NuxtLink></span>
 			</div>
 		</header>
 		<ul class="articles">
@@ -23,12 +24,14 @@
 					<div class="article-meta small">
 						<span>{{ article.published }}</span>
 						<span class="spacer"></span>
-						<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.id}}" class="inline-block">
+						<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.username}}" class="inline-block">
 							{{ article.author?.username }}
 						</NuxtLink>
 					</div>
 					<ul class="article-tags">
-						<li class="tag small" v-for="tag in article.tags"><NuxtLink>{{ tag }}</NuxtLink></li>
+						<li class="tag small" v-for="tag in article.tags">
+							<NuxtLink :to="{path: '/journal/articles', query: { tag: tag }}">{{ tag }}</NuxtLink>
+						</li>
 					</ul>
 				</header>
 				<div class="article-content">
@@ -56,9 +59,14 @@
 		key: `journal-data-${route.fullPath}`,
 		body: computed(() => {
 			let queryStr = "";
-	      if (route.query.author) {
-	     		queryStr += `.filterBy("author", "*=", "${route.query.author}")`;
-	      }
+
+			if (route.query.author) {
+				queryStr += `.filterBy("author", "*=", "${route.query.author}")`;
+			}
+
+			if (route.query.tag) {
+				queryStr += `.filterBy("tags", "*=", "${route.query.tag}")`;
+			}
 
 			return {
 				query: 'site',
