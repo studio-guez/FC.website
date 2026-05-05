@@ -28,7 +28,7 @@
 							{{ article.author?.username }}
 						</NuxtLink>
 					</div>
-					<ul class="article-tags">
+					<ul class="article-tags" v-if="article.tags.length">
 						<p class="article-tags-header small">{{ article.tags.length > 1 ? "Tags" : "Tag" }}:</p>
 						<li class="tag small" v-for="tag in article.tags">
 							<NuxtLink :to="{path: '/journal/articles', query: { tag: tag, author: route.query.author }}">{{ tag }}</NuxtLink>
