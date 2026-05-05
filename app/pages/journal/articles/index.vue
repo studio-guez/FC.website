@@ -80,7 +80,7 @@
 						}
 					},
 					children: {
-						query: 'site.find("journal").children.filterBy("template", "article")' + queryStr,
+						query: 'site.find("journal").children.filterBy("template", "article").sortBy("published", "desc")' + queryStr,
 						select: {
 							title: true,
 							slug: true,

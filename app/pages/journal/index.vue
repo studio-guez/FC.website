@@ -34,7 +34,7 @@
 			select: {
 				title: true,
 				children: {
-					query: 'page.children.filterBy("template", "article")',
+					query: 'page.children.filterBy("template", "article").sortBy("published", "desc")',
 					select: {
 						title: true,
 						slug: true,
