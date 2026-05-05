@@ -39,13 +39,13 @@
 					<template v-for="block in article.content">
 						<div class="text" v-if="block.text" v-html="block.text"></div>
 						<figure v-if="block.image">
-							<img :src="block.image.url" :alt="block.image.alt">
+							<img :src="block.image.url" :alt="block.image.alt" :srcset="block.image.srcset" sizes="40vw">
 							<figcaption class="small" v-if="block.caption">{{ block.caption }}</figcaption>
 						</figure>
 					</template>
 				</div>
 				<div class="article-cover" v-if="article.image_cover">
-					<img :src="article.image_cover.url" :alt="article.image_cover.alt">
+					<img :src="article.image_cover.url" :alt="article.image_cover.alt" :srcset="article.image_cover.srcset" sizes="40vw">
 				</div>
 			</li>
 		</ul>
@@ -84,7 +84,14 @@
 						select: {
 							title: true,
 							slug: true,
-							image_cover: 'page.image_cover.toFile',
+							image_cover: {
+								query: 'page.image_cover.toFile',
+								select: {
+									url: true,
+									alt: true,
+									srcset: 'file.srcset([800, 1200, 1600, 2400])'	
+								}
+							},
 							published: 'page.published.toDate("d.m.y")',
 							author: 'page.author.toUser',
 							tags: 'page.tags.split(",")',
@@ -92,7 +99,14 @@
 								query: 'page.text.toBlocks',
 								select: {
 									text: 'block.content.text',
-									image: 'block.content.image.toFile',
+									image: {
+										query: 'block.content.image.toFile',
+										select: {
+											url: true,
+											alt: true,
+											srcset: 'file.srcset([800, 1200, 1600, 2400])'	
+										}
+									},
 									caption: 'block.content.caption'
 								}
 							}

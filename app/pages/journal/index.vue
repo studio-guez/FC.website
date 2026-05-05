@@ -17,7 +17,7 @@
 						<p class="small u">{{ article.published }}</p>
 					</div>
 					<div class="article-thumbnail">
-						<img class="article-thumbnail-image" v-if="article.image_cover" :src="article.image_cover.url" :alt="article.image_cover.alt">
+						<img class="article-thumbnail-image" v-if="article.image_cover" :src="article.image_cover.url" :alt="article.image_cover.alt" :srcset="article.image_cover.srcset" sizes="20vw">
 						<h2 class="article-thumbnail-title u" :style="{ '--title-length': article.title.length }">{{ article.title }}</h2>
 					</div>
 			</NuxtLink>
@@ -38,7 +38,14 @@
 					select: {
 						title: true,
 						slug: true,
-						image_cover: 'page.image_cover.toFile',
+						image_cover: {
+							query: 'page.image_cover.toFile',
+							select: {
+								url: true,
+								alt: true,
+								srcset: 'file.srcset([800, 1200, 1600, 2400])'	
+							}
+						},
 						published: 'page.published.toDate("d.m.y")'
 					}
 				}
