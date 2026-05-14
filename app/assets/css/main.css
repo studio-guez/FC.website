@@ -537,11 +537,27 @@ a[href^="mailto:"] {
    display: grid;
    grid-template-columns: repeat(6, 1fr);
    grid-column-gap: 0.65rem;
+   padding-right: 1.5rem;
 }
 
 .journal-header-title {
-   grid-column: 2 / span all;  
+   grid-column: 2 / span 4;  
    margin-bottom: 2rem;
+}
+
+.tags--journal {
+   height: 1rem;
+   grid-column: span 6;
+   justify-self: start;
+   border-bottom: 0.07em solid;
+}
+
+.tags--journal * {
+   vertical-align: top;
+}
+
+.tags--journal .tag a {
+   text-decoration: none;
 }
 
 .journal-header-filters {
@@ -549,6 +565,12 @@ a[href^="mailto:"] {
    grid-column: span 6;
    display: flex;
    gap: 0.75rem;
+   border-bottom: 0.07em solid;
+   justify-self: start;
+}
+
+.journal-header-filters a {
+   text-decoration: none;
 }
 
 .article-list {
@@ -558,6 +580,7 @@ a[href^="mailto:"] {
    grid-row-gap: 0.25rem;
    list-style: none;
    padding: 0;
+   margin-top: 1rem;
    padding-right: 1.5rem;
 }
 
@@ -657,13 +680,13 @@ a[href^="mailto:"] {
    flex-basis: 1em;
 }
 
-.article-tags {
+.tags--article {
    margin-top: .5em;
    padding: 0;
    list-style: none;
 }
 
-.article-tags-header {
+.tags-header {
    border-bottom: 0.07em solid;
 }
 
@@ -675,7 +698,7 @@ a[href^="mailto:"] {
    cursor: pointer;
 }
 
-.article-tags .tag:not(:last-child)::after {
+.tags .tag:not(:last-child)::after {
    content: ", ";
 }
 

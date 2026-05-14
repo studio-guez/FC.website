@@ -10,9 +10,9 @@
 	<main class="site-main journal">
 		<header class="journal-header">
 			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page?.title }}</NuxtLink></h1>
-			<div class="journal-header-filters">
-				<span class="small u" v-if="route.query.author">Auteur·ice: {{ page.filters.author.username }} <NuxtLink :to="{path: '/journal/articles', query: { tag: route.query.tag }}">✗</NuxtLink></span>
-				<span class="small u" v-if="route.query.tag">Tag: {{ route.query.tag }} <NuxtLink :to="{path: '/journal/articles', query: { author: route.query.author }}">✗</NuxtLink></span>
+			<div class="journal-header-filters small">
+				<span v-if="route.query.author">Auteur·ice: {{ page.filters.author.username }} <NuxtLink :to="{path: '/journal/articles', query: { tag: route.query.tag }}">✗</NuxtLink></span>
+				<span v-if="route.query.tag">Tag: {{ route.query.tag }} <NuxtLink :to="{path: '/journal/articles', query: { author: route.query.author }}">✗</NuxtLink></span>
 			</div>
 		</header>
 		<ul class="articles" v-if="!pending">
@@ -28,9 +28,9 @@
 							{{ article.author?.username }}
 						</NuxtLink>
 					</div>
-					<ul class="article-tags" v-if="article.tags.length">
-						<p class="article-tags-header small">{{ article.tags.length > 1 ? "Tags" : "Tag" }}:</p>
-						<li class="tag small" v-for="tag in article.tags">
+					<ul class="tags tags--article small" v-if="article.tags.length">
+						<p class="tags-header">{{ article.tags.length > 1 ? "Tags" : "Tag" }}:</p>
+						<li class="tag" v-for="tag in article.tags">
 							<NuxtLink :to="{path: '/journal/articles', query: { tag: tag, author: route.query.author }}">{{ tag }}</NuxtLink>
 						</li>
 					</ul>

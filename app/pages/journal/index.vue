@@ -10,6 +10,15 @@
 	<main class="site-main journal">
 		<header class="journal-header">
 			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page?.title }}</NuxtLink></h1>
+			<div class="journal-header-filters small" v-if="route.query.tag">
+				<span v-if="route.query.tag">Tag: {{ route.query.tag }} <NuxtLink :to="{path: '/journal', query: { author: route.query.author }}">✗</NuxtLink></span>
+			</div>
+			<ul class="tags tags--journal small" v-if="tags.length && !route.query.tag">
+				<span class="tags-header">{{ tags.length > 1 ? "Tags" : "Tag" }}: </span>
+				<li class="tag" v-for="tag in tags">
+					<NuxtLink :to="{path: '/journal', query: { tag: tag }}">{{ tag }}</NuxtLink>
+				</li>
+			</ul>
 		</header>
 		<ul class="article-list">
 			<NuxtLink :to="`/journal/articles#${article.slug}`" class="article-list-item" v-for="article in page?.children">
@@ -26,35 +35,49 @@
 </template>
 
 <script setup>
+	const route = useRoute();
 
 	const { data, error } = await useFetch('/api/CMS_KQLRequest', {
 		method: 'POST',
-		body: {
-			query: 'site.find("journal")',
-			select: {
-				title: true,
-				children: {
-					query: 'page.children.filterBy("template", "article").sortBy("published", "desc")',
-					select: {
-						title: true,
-						slug: true,
-						image_cover: {
-							query: 'page.image_cover.toFile',
-							select: {
-								url: true,
-								alt: true,
-								srcset: 'file.srcset([800, 1200, 1600, 2400])'	
-							}
-						},
-						published: 'page.published.toDate("d.m.y")'
+		key: `journal-data-${route.fullPath}`,
+		body: computed(() => {
+			let queryStr = "";
+
+			if (route.query.tag) {
+				queryStr += `.filterBy("tags", "*=", "${route.query.tag}")`;
+			}
+
+			return {
+				query: 'site.find("journal")',
+				select: {
+					title: true,
+					tags: 'page.children.filterBy("template", "article").sortBy("published", "desc").pluck("tags")',
+					children: {
+						query: 'page.children.filterBy("template", "article").sortBy("published", "desc")' + queryStr,
+						select: {
+							title: true,
+							slug: true,
+							image_cover: {
+								query: 'page.image_cover.toFile',
+								select: {
+									url: true,
+									alt: true,
+									srcset: 'file.srcset([800, 1200, 1600, 2400])'	
+								}
+							},
+							published: 'page.published.toDate("d.m.y")'
+						}
 					}
 				}
 			}
-		}
+		})
 	});
 
 	const page = computed(() => data.value?.result);
 
-	console.log(page.value);
+	const tags = computed(() => [...new Set(page.value.tags.map(tags => tags.value.split(', ')).flat())].filter(str => str !== ""));
+
+	console.log(tags.value);
+
 
 </script>
