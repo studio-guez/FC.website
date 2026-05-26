@@ -17,36 +17,42 @@
 		</header>
 		<ul class="articles" v-if="!pending">
 			<li class="article" :id="article.slug" v-for="article in page?.children">
-				<header class="article-header">
-					<div class="article-thumbnail">
-						<h2 class="article-thumbnail-title u" :style="{ '--title-length': article.title.length }">{{ article.title }}</h2>
+				<article class="container">
+					<header class="article-header">
+						<div class="article-thumbnail">
+							<h2 class="article-thumbnail-title u" :style="{ '--title-length': article.title.length }">{{ article.title }}</h2>
+						</div>
+						<div>
+							<div class="article-meta small">
+								<span>{{ article.published }}</span>
+								<span class="spacer"></span>
+								<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.id, tag: route.query.tag }}" class="inline-block">
+									{{ article.author?.username }}
+								</NuxtLink>
+							</div>
+							<ul class="tags tags--article small" v-if="article.tags.length">
+								<p class="tags-header">{{ article.tags.length > 1 ? "Tags" : "Tag" }}:</p>
+								<li class="tag" v-for="tag in article.tags">
+									<NuxtLink :to="{path: '/journal/articles', query: { tag: tag, author: route.query.author }}">{{ tag }}</NuxtLink>
+								</li>
+							</ul>
+						</div>
+					</header>
+					<div class="article-main">
+						<div class="article-content">
+							<template v-for="block in article.content">
+								<div class="text" v-if="block.text" v-html="block.text"></div>
+								<figure v-if="block.image">
+									<img :src="block.image.url" :alt="block.image.alt" :srcset="block.image.srcset" sizes="40vw">
+									<figcaption class="small" v-if="block.caption">{{ block.caption }}</figcaption>
+								</figure>
+							</template>
+						</div>
+						<div class="article-cover" v-if="article.image_cover">
+							<img :src="article.image_cover.url" :alt="article.image_cover.alt" :srcset="article.image_cover.srcset" sizes="40vw">
+						</div>
 					</div>
-					<div class="article-meta small">
-						<span>{{ article.published }}</span>
-						<span class="spacer"></span>
-						<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.id, tag: route.query.tag }}" class="inline-block">
-							{{ article.author?.username }}
-						</NuxtLink>
-					</div>
-					<ul class="tags tags--article small" v-if="article.tags.length">
-						<p class="tags-header">{{ article.tags.length > 1 ? "Tags" : "Tag" }}:</p>
-						<li class="tag" v-for="tag in article.tags">
-							<NuxtLink :to="{path: '/journal/articles', query: { tag: tag, author: route.query.author }}">{{ tag }}</NuxtLink>
-						</li>
-					</ul>
-				</header>
-				<div class="article-content">
-					<template v-for="block in article.content">
-						<div class="text" v-if="block.text" v-html="block.text"></div>
-						<figure v-if="block.image">
-							<img :src="block.image.url" :alt="block.image.alt" :srcset="block.image.srcset" sizes="40vw">
-							<figcaption class="small" v-if="block.caption">{{ block.caption }}</figcaption>
-						</figure>
-					</template>
-				</div>
-				<div class="article-cover" v-if="article.image_cover">
-					<img :src="article.image_cover.url" :alt="article.image_cover.alt" :srcset="article.image_cover.srcset" sizes="40vw">
-				</div>
+				</article>
 			</li>
 		</ul>
 	</main>
