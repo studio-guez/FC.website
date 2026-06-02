@@ -540,7 +540,7 @@ a[href^="mailto:"] {
 
 .journal-header {
    display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+   grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
    grid-column-gap: 0.65rem;
    padding-right: 1.5rem;
 }
@@ -551,27 +551,64 @@ a[href^="mailto:"] {
 }
 
 .tags--journal {
-   height: 1rem;
-   grid-column: 1/-1;
-   justify-self: start;
-   border-bottom: 0.07em solid;
+   grid-column: 2/-1;
 }
 
-.tags--journal * {
-   vertical-align: top;
+.tags--journal + .tags--journal {
+   margin-top: 0.25rem;
 }
 
-.tags--journal .tag a {
+.tags {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 0.25rem
+}
+
+.tag--star {
+   border-image-slice: 49.5 fill;
+   border-image-repeat: round;
+   border-image-width: 0.75rem;
+}
+
+.tag--bubble {
+   border-image-slice: 49 86 fill;
+   border-image-repeat: round;
+   border-image-width: 1rem 1.77rem;
+   margin-left: -0.125rem;
+   margin-right: -0.125rem;
+}
+
+.tag--star,
+.tag--bubble {
+   white-space: nowrap;
+   cursor: pointer;
+}
+
+.tag--star:hover,
+.tag--bubble:hover {
+   opacity: 0.7;
+}
+
+.tag--star a:hover,
+.tag--bubble a:hover {
+   opacity: 1;
+}
+
+.tag--star > a,
+.tag--bubble > a {
+   display: block;
+   padding: 0.5rem 1rem;
+   color: white;
    text-decoration: none;
 }
 
 .journal-header-filters {
-   height: 1rem;
+   /*height: 1rem;*/
    grid-column: 1/-1;
    display: flex;
    gap: 0.75rem;
-   border-bottom: 0.07em solid;
-   justify-self: start;
+   /*border-bottom: 0.07em solid;*/
+   /*justify-self: start;*/
 }
 
 .journal-header-filters a {
@@ -718,21 +755,6 @@ a[href^="mailto:"] {
    list-style: none;
 }
 
-.tags-header {
-   border-bottom: 0.07em solid;
-}
-
-.tag {
-   display: inline;
-}
-
-.tag a {
-   cursor: pointer;
-}
-
-.tags .tag:not(:last-child)::after {
-   content: ", ";
-}
 
 @media (max-width: 1024px) {
    :root {
