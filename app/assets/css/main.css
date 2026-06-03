@@ -554,7 +554,7 @@ a[href^="mailto:"] {
    grid-column: 2/-1;
 }
 
-.tags--journal + .tags--journal {
+.tags + .tags {
    margin-top: 0.25rem;
 }
 
@@ -571,8 +571,8 @@ a[href^="mailto:"] {
 }
 
 .tag--bubble {
-   border-image-slice: 49 86 fill;
-   border-image-repeat: round;
+   border-image-slice: 48 86 48 fill;
+   border-image-repeat: round stretch;
    border-image-width: 1rem 1.77rem;
    margin-left: -0.125rem;
    margin-right: -0.125rem;
@@ -580,7 +580,7 @@ a[href^="mailto:"] {
 
 .tag--star,
 .tag--bubble {
-   white-space: nowrap;
+   /*white-space: nowrap;*/
    cursor: pointer;
 }
 
@@ -602,13 +602,9 @@ a[href^="mailto:"] {
    text-decoration: none;
 }
 
-.journal-header-filters {
-   /*height: 1rem;*/
-   grid-column: 1/-1;
-   display: flex;
-   gap: 0.75rem;
-   /*border-bottom: 0.07em solid;*/
-   /*justify-self: start;*/
+.filters {
+   grid-column: 2/-1;
+   margin-bottom: 0.75rem;
 }
 
 .journal-header-filters a {

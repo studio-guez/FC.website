@@ -10,9 +10,18 @@
 	<main class="site-main journal">
 		<header class="journal-header">
 			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page?.title }}</NuxtLink></h1>
-			<div class="journal-header-filters small">
-				<span v-if="route.query.author">Auteur·ice: {{ page.filters.author.username }} <NuxtLink :to="{path: '/journal/articles', query: { tag: route.query.tag }}">✗</NuxtLink></span>
-				<span v-if="route.query.tag">Tag: {{ route.query.tag }} <NuxtLink :to="{path: '/journal/articles', query: { author: route.query.author }}">✗</NuxtLink></span>
+			<div class="filters">
+				<div>
+					<span v-if="route.query.author">
+						Auteur·ice: {{ page.filters.author.username }} <NuxtLink :to="{path: '/journal/articles', query: { category: route.query.category }}">✗</NuxtLink>
+					</span>
+				</div>
+				<div class="tags" >
+					<Tag v-if="activeCategory" shape="star" :color="activeCategory.color"><NuxtLink :to="{path: '/journal/articles', query: { author: route.query.author, theme: route.query.theme }}">{{ activeCategory.title }} ✗</NuxtLink>
+					</Tag>
+					<Tag v-if="activeTheme"shape="bubble" :color="activeTheme.color"><NuxtLink :to="{path: '/journal/articles', query: { author: route.query.author, category: route.query.category }}">{{ activeTheme.title }} ✗</NuxtLink>
+					</Tag>
+				</div>
 			</div>
 		</header>
 		<ul class="articles" v-if="!pending">
@@ -26,14 +35,22 @@
 							<div class="article-meta small">
 								<span>{{ article.published }}</span>
 								<span class="spacer"></span>
-								<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.id, tag: route.query.tag }}" class="inline-block">
+								<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.id, category: route.query.category, theme: route.query.theme }}" class="inline-block">
 									{{ article.author?.username }}
 								</NuxtLink>
 							</div>
-							<ul class="tags tags--article small" v-if="article.tags.length">
-								<p class="tags-header">{{ article.tags.length > 1 ? "Tags" : "Tag" }}:</p>
-								<li class="tag" v-for="tag in article.tags">
-									<NuxtLink :to="{path: '/journal/articles', query: { tag: tag, author: route.query.author }}">{{ tag }}</NuxtLink>
+							<ul class="tags tags--article">
+								<li v-for="category in article.categories">
+									<Tag shape="star" :color="category.color">
+										<NuxtLink :to="{path: '/journal/articles', query: { category: category.slug, theme: route.query.theme, author: route.query.author }}">{{ category.title }}</NuxtLink>
+									</Tag>
+								</li>
+							</ul>
+							<ul class="tags tags--article">
+								<li v-for="theme in article.themes">
+									<Tag shape="bubble" :color="theme.color">
+										<NuxtLink :to="{path: '/journal/articles', query: { theme: theme.slug, author: route.query.author, category: route.query.category }}">{{ theme.title }}</NuxtLink>
+									</Tag>
 								</li>
 							</ul>
 						</div>
@@ -71,8 +88,12 @@
 				queryStr += `.filterBy("author", "*=", "${route.query.author}")`;
 			}
 
-			if (route.query.tag) {
-				queryStr += `.filterBy("tags", "*=", "${route.query.tag}")`;
+			if (route.query.category) {
+				queryStr += `.filterBy("categories", "*=", "${route.query.category}")`;
+			}
+
+			if (route.query.theme) {
+				queryStr += `.filterBy("themes", "*=", "${route.query.theme}")`;
 			}
 
 			return {
@@ -82,7 +103,23 @@
 					filters: {
 						query: 'kirby',
 						select: {
-							author: `kirby.users.find("${route.query.author}")`	
+							author: `kirby.users.find("${route.query.author}")`,
+							categories: {
+								query: 'site.find("journal/tags").children.template("tag-category")',
+								select: {
+									title: true,
+									slug: true,
+									color: true
+								}
+							},
+							themes: {
+								query: 'site.find("journal/tags").children.template("tag-theme")',
+								select: {
+									title: true,
+									slug: true,
+									color: true
+								}
+							},	
 						}
 					},
 					children: {
@@ -100,7 +137,22 @@
 							},
 							published: 'page.published.toDate("d.m.y")',
 							author: 'page.author.toUser',
-							tags: 'page.tags.split(",")',
+							categories: {
+								query: 'page.categories.toPages(",")',
+								select: {
+									title: true,
+									slug: true,
+									color: true
+								}
+							},
+							themes: {
+								query: 'page.themes.toPages(",")',
+								select: {
+									title: true,
+									slug: true,
+									color: true
+								}
+							},
 							content: {
 								query: 'page.text.toBlocks',
 								select: {
@@ -124,12 +176,19 @@
 	});
 
 	watch(pending, (isPending) => {
-		if (!isPending) {
+		if (isPending) {
 			window.scrollTo({ top: 0, behavior: 'instant' });
 		}
 	});
 
 	const page = computed(() => data.value?.result);
-	console.log(page.value);
+
+	const activeCategory = computed(() => {
+		return page.value?.filters.categories.find(cat => cat.slug == route.query.category);
+	});
+
+	const activeTheme = computed(() => {
+		return page.value?.filters.themes.find(cat => cat.slug == route.query.theme);
+	});
 
 </script>
