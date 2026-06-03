@@ -9,7 +9,7 @@
 	</Head>
 	<main class="site-main journal">
 		<header class="journal-header">
-			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page?.title }}</NuxtLink></h1>
+			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page.title }}</NuxtLink></h1>
 			<nav aria-label="Filtrer par catégories" class="tags tags--journal">
 				<template v-for="category in page.categories">
 					 <Tag v-if="tagIsActive(category, 'category')" :color="category.color" shape="star">
@@ -33,7 +33,7 @@
 		</header>
 		<ul class="article-list">
 			<li class="container">
-				<NuxtLink :to="`/journal/articles#${article.slug}`" class="article-list-item" v-for="article in page?.children">
+				<NuxtLink :to="`/journal/articles#${article.slug}`" class="article-list-item" v-for="article in page.children">
 						<div class="article-list-item-header">
 							<p class="small u">{{ article.published }}</p>
 						</div>
@@ -52,6 +52,7 @@
 
 	const { data, error } = await useFetch('/api/CMS_KQLRequest', {
 		method: 'POST',
+		key: `journal-data-${route.fullPath}`,
 		body: computed(() => {
 			let queryStr = "";
 
