@@ -648,10 +648,10 @@ a[href^="mailto:"] {
    justify-content: center;
    align-items: center;
    aspect-ratio: 6/5;
-   flex-grow: 1;
    background-color: #f6d2e8;
    padding: 0.65rem;
    text-align: center;
+   margin-bottom: .5em;
 }
 
 .article-thumbnail:hover .article-thumbnail-image {
@@ -725,10 +725,10 @@ a[href^="mailto:"] {
 }
 
 .article-meta {
-   margin-top: .5em;
    display: flex;
    justify-content: space-between;
    flex-wrap: wrap;
+   align-self: start;
 }
 
 .inline-block {

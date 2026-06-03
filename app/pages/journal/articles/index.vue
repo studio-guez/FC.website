@@ -10,16 +10,16 @@
 	<main class="site-main journal">
 		<header class="journal-header">
 			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page?.title }}</NuxtLink></h1>
-			<div class="filters">
-				<div>
-					<span v-if="route.query.author">
-						Auteur·ice: {{ page.filters.author.username }} <NuxtLink :to="{path: '/journal/articles', query: { category: route.query.category }}">✗</NuxtLink>
-					</span>
+			<div class="article-meta author small" v-if="page?.filters.author">
+					<span>Auteur·ice: </span>
+					<span class="spacer"></span>
+					<NuxtLink :to="{path: '/journal/articles', query: { ...route.query, author: undefined }}">{{ page?.filters.author.username }}  ✗</NuxtLink>
 				</div>
+			<div class="filters">
 				<div class="tags" >
-					<Tag v-if="activeCategory" shape="star" :color="activeCategory.color"><NuxtLink :to="{path: '/journal/articles', query: { author: route.query.author, theme: route.query.theme }}">{{ activeCategory.title }} ✗</NuxtLink>
+					<Tag v-if="activeCategory" shape="star" :color="activeCategory.color"><NuxtLink :to="{path: '/journal/articles', query: { ...route.query, category: undefined }}">{{ activeCategory.title }} ✗</NuxtLink>
 					</Tag>
-					<Tag v-if="activeTheme"shape="bubble" :color="activeTheme.color"><NuxtLink :to="{path: '/journal/articles', query: { author: route.query.author, category: route.query.category }}">{{ activeTheme.title }} ✗</NuxtLink>
+					<Tag v-if="activeTheme"shape="bubble" :color="activeTheme.color"><NuxtLink :to="{path: '/journal/articles', query: { ...route.query, theme: undefined }}">{{ activeTheme.title }} ✗</NuxtLink>
 					</Tag>
 				</div>
 			</div>
@@ -35,21 +35,21 @@
 							<div class="article-meta small">
 								<span>{{ article.published }}</span>
 								<span class="spacer"></span>
-								<NuxtLink :to="{ path: '/journal/articles', query: { author: article.author?.id, category: route.query.category, theme: route.query.theme }}" class="inline-block">
+								<NuxtLink :to="{ path: '/journal/articles', query: {...route.query, author: article.author?.id }}" class="inline-block">
 									{{ article.author?.username }}
 								</NuxtLink>
 							</div>
 							<ul class="tags tags--article">
 								<li v-for="category in article.categories">
 									<Tag shape="star" :color="category.color">
-										<NuxtLink :to="{path: '/journal/articles', query: { category: category.slug, theme: route.query.theme, author: route.query.author }}">{{ category.title }}</NuxtLink>
+										<NuxtLink :to="{path: '/journal/articles', query: { ...route.query, category: category.slug }}">{{ category.title }}</NuxtLink>
 									</Tag>
 								</li>
 							</ul>
 							<ul class="tags tags--article">
 								<li v-for="theme in article.themes">
 									<Tag shape="bubble" :color="theme.color">
-										<NuxtLink :to="{path: '/journal/articles', query: { theme: theme.slug, author: route.query.author, category: route.query.category }}">{{ theme.title }}</NuxtLink>
+										<NuxtLink :to="{path: '/journal/articles', query: { ...route.query, theme: theme.slug }}">{{ theme.title }}</NuxtLink>
 									</Tag>
 								</li>
 							</ul>
