@@ -96,6 +96,8 @@
 
    function onTimeUpdate() {
       const el = videoEl.value;
+      if (!el) return;
+      
       seekPercent.value = (el.currentTime / el.duration) * 100;
    }
 
@@ -130,6 +132,8 @@
    }
 
    function onResize() {
+      if (!videoEl.value) return;
+
       if (videoEl.value.offsetHeight > window.innerHeight) {
          const ratio = videoEl.value.offsetWidth / videoEl.value.offsetHeight;
          containerEl.value.style.maxWidth = (window.innerHeight * ratio) + 'px';

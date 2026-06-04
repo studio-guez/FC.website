@@ -731,6 +731,10 @@ a[href^="mailto:"] {
    align-self: start;
 }
 
+.article .video-player {
+   border-radius: 0;
+}
+
 .inline-block {
    display: inline-block;
 }

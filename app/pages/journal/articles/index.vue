@@ -63,6 +63,10 @@
 									<img :src="block.image.url" :alt="block.image.alt" :srcset="block.image.srcset" sizes="40vw">
 									<figcaption class="small" v-if="block.caption">{{ block.caption }}</figcaption>
 								</figure>
+								<figure v-if="block.video" class="video" :class="{mobile: block.mobile}" :style="{color: block.color}">
+				            	<VideoPlayer :src="block.video?.url" :poster="block.video?.poster?.url" :color="block.color" />
+				            	<figcaption v-if="block.caption" class="small">{{ block.caption }}</figcaption>
+				         	</figure>
 							</template>
 						</div>
 						<div class="article-cover" v-if="article.image_cover">
@@ -78,9 +82,13 @@
 <script setup>
 	const route = useRoute();
 
+	const fetchKey = computed(() => {
+		return `journal-${route.fullPath.replace(route.hash, '')}`;
+	});
+
 	const { data, error, pending } = await useFetch('/api/CMS_KQLRequest', {
 		method: 'POST',
-		key: `journal-data-${route.fullPath}`,
+		key: fetchKey.value,
 		body: computed(() => {
 			let queryStr = "";
 
@@ -165,6 +173,7 @@
 											srcset: 'file.srcset([800, 1200, 1600, 2400])'	
 										}
 									},
+									video: 'block.content.video.toFile',
 									caption: 'block.content.caption'
 								}
 							}

@@ -50,9 +50,13 @@
 <script setup>
 	const route = useRoute();
 
+	const fetchKey = computed(() => {
+		return `journal-${route.fullPath.replace(route.hash, '')}`;
+	});
+
 	const { data, error } = await useFetch('/api/CMS_KQLRequest', {
 		method: 'POST',
-		key: `journal-data-${route.fullPath}`,
+		key: fetchKey.value,
 		body: computed(() => {
 			let queryStr = "";
 
