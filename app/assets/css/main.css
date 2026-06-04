@@ -880,8 +880,15 @@ a[href^="mailto:"] {
       display: block;
    }
 
-   .journal-header-title {
+   .journal-header-title,
+   .tags--journal,
+   .filters,
+   .article-meta.author {
       grid-column: 1 / -1;  
+   }
+
+   .article-meta.author {
+      margin-bottom: 0.5rem;
    }
 
    .article {
