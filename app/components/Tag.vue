@@ -1,5 +1,5 @@
 <template>
-	<div class="tag small" :class="{'tag--bubble': props.shape == 'bubble', 'tag--star': props.shape == 'star'}" :style="borderImageSource(props.shape, props.color)">
+	<div class="tag x-small" :class="{'tag--bubble': props.shape == 'bubble', 'tag--star': props.shape == 'star'}" :style="borderImageSource(props.shape, props.color)">
 		<slot></slot>
 	</div>
 </template>

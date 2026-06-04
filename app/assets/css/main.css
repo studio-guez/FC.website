@@ -57,6 +57,10 @@ h5, .h5 {
    font-size: 0.8rem
 }
 
+.x-small {
+   font-size: 0.72rem
+}
+
 h2:not(:last-child),
 h3:not(:last-child)
 h4:not(:last-child)
