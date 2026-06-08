@@ -569,13 +569,13 @@ a[href^="mailto:"] {
 }
 
 .tag--star {
-   border-image-slice: 49.5 fill;
+   border-image-slice: 99 fill;
    border-image-repeat: round;
    border-image-width: 0.75rem;
 }
 
 .tag--bubble {
-   border-image-slice: 48 86 48 fill;
+   border-image-slice: 96 172 96 fill;
    border-image-repeat: round stretch;
    border-image-width: 1rem 1.77rem;
    margin-left: -0.125rem;
@@ -584,7 +584,6 @@ a[href^="mailto:"] {
 
 .tag--star,
 .tag--bubble {
-   /*white-space: nowrap;*/
    cursor: pointer;
 }
 
