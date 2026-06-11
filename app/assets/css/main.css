@@ -582,8 +582,8 @@ a[href^="mailto:"] {
    margin-right: -0.125rem;
 }
 
-.tag--star,
-.tag--bubble {
+.tag--star:has(> a),
+.tag--bubble:has(> a) {
    cursor: pointer;
 }
 
