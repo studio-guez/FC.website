@@ -10,26 +10,31 @@
 	<main class="site-main journal">
 		<header class="journal-header">
 			<h1 class="h3 u journal-header-title"><NuxtLink to="/journal">{{ page.title }}</NuxtLink></h1>
-			<nav aria-label="Filtrer par catégories" class="tags tags--journal">
-				<template v-for="category in page.categories">
-					 <Tag v-if="tagIsActive(category, 'category')" :color="category.color" shape="star">
-						<NuxtLink :to="{path: '/journal', query: route.query.category ? { theme: route.query.theme } : { category: category.slug, theme: route.query.theme }}">
-							{{ category.title }}
-							<span v-if="route.query.category && tagIsActive(category, 'category')"> ✗</span>
-						</NuxtLink>
-					</Tag>
-				</template>
-			</nav>
-			<nav aria-label="Filtrer par thématiques" class="tags tags--journal">
-				<template v-for="theme in page.themes">
-					 <Tag v-if="tagIsActive(theme, 'theme')" :color="theme.color" shape="bubble">
-						<NuxtLink :to="{path: '/journal', query: route.query.theme ? { category: route.query.category } : { theme: theme.slug, category: route.query.category }}">
-							{{ theme.title }}
-							<span v-if="route.query.theme && tagIsActive(theme, 'theme')"> ✗</span>
-						</NuxtLink>
-					</Tag>
-				</template>
-			</nav>
+			<Tag class="journal-header-description" shape="star" color="#f6d2e8">
+				<div v-html="page.description"></div>
+			</Tag>
+			<div class="journal-header-tags">
+				<nav aria-label="Filtrer par catégories" class="tags">
+					<template v-for="category in page.categories">
+						 <Tag v-if="tagIsActive(category, 'category')" :color="category.color" shape="star">
+							<NuxtLink :to="{path: '/journal', query: route.query.category ? { theme: route.query.theme } : { category: category.slug, theme: route.query.theme }}">
+								{{ category.title }}
+								<span v-if="route.query.category && tagIsActive(category, 'category')"> ✗</span>
+							</NuxtLink>
+						</Tag>
+					</template>
+				</nav>
+				<nav aria-label="Filtrer par thématiques" class="tags">
+					<template v-for="theme in page.themes">
+						 <Tag v-if="tagIsActive(theme, 'theme')" :color="theme.color" shape="bubble">
+							<NuxtLink :to="{path: '/journal', query: route.query.theme ? { category: route.query.category } : { theme: theme.slug, category: route.query.category }}">
+								{{ theme.title }}
+								<span v-if="route.query.theme && tagIsActive(theme, 'theme')"> ✗</span>
+							</NuxtLink>
+						</Tag>
+					</template>
+				</nav>
+			</div>
 		</header>
 		<ul class="article-list">
 			<li class="container">
@@ -72,6 +77,7 @@
 				query: 'site.find("journal")',
 				select: {
 					title: true,
+					description: 'page.description.permalinksToUrls.absoluteToRelativeUrls.formatText',
 					categories: {
 						query: 'page.find("tags").children.template("tag-category")',
 						select: {
