@@ -681,6 +681,11 @@ a[href^="mailto:"] {
 
 .article-thumbnail-title {
    font-size: calc(1.5rem - min((max((var(--title-length) - 30), 0) * 0.012rem), 0.8rem));
+   display: -webkit-box;
+   -webkit-line-clamp: 7;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+   text-overflow: ellipsis;
 }
 
 .articles {
