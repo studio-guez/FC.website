@@ -680,7 +680,7 @@ a[href^="mailto:"] {
 }
 
 .article-thumbnail-title {
-   font-size: calc(1.5rem - max((var(--title-length) - 30), 0) * 0.075rem);
+   font-size: calc(1.5rem - min((max((var(--title-length) - 30), 0) * 0.012rem), 0.8rem));
 }
 
 .articles {
