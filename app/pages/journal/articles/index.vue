@@ -167,7 +167,7 @@
 							content: {
 								query: 'page.text.toBlocks',
 								select: {
-									text: 'block.content.text',
+									text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText',
 									image: {
 										query: 'block.content.image.toFile',
 										select: {
