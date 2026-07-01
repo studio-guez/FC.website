@@ -5,6 +5,13 @@
    font-style: normal;
 }
 
+@font-face {
+   font-family: 'Inter';
+   src: url('/fonts/InterTight-MediumItalic.woff2') format('woff2');
+   font-weight: normal;
+   font-style: italic;
+}
+
 :root {
    font-family: 'Inter', sans-serif;
    font-size: 22px;
