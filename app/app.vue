@@ -14,8 +14,10 @@
   import 'overlayscrollbars/overlayscrollbars.css';
   import { useOverlayScrollbars } from "overlayscrollbars-vue";
   import { onMounted } from 'vue';
+  const route = useRoute();
 
   const body = {
+    _version: route.query._version,
     query: 'site',
     select: {
       color: 'site.header_color',

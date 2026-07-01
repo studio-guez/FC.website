@@ -29,9 +29,10 @@
    const route = useRoute();
    const pathSegments = route.params.slug || [];
    const fullPageSlug = pathSegments.join('/');
+   const isPageRoute = pathSegments.length > 0;
    const isPreview = route.query.preview === '1';
-   const pageQuery = pathSegments.length ? `site.${isPreview ? 'findPageOrDraft' : 'find'}('${fullPageSlug}')` : 'site';
-   const layoutQuery = pathSegments.length ? 'page.sections.toLayouts' : 'site.sections.toLayouts';
+   const pageQuery = isPageRoute ? `site.${isPreview ? 'findPageOrDraft' : 'find'}('${fullPageSlug}')` : 'site';
+   const layoutQuery = isPageRoute ? 'page.sections.toLayouts' : 'site.sections.toLayouts';
 
    const baseBlockSelect = {
       type: true,
@@ -60,6 +61,7 @@
    };
 
    const body = {
+      _version: route.query._version,
       query: pageQuery,
       select: {
          title: true,

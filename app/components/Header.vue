@@ -10,8 +10,10 @@
 
 <script setup lang="ts">
    const props = defineProps(['color']);
+   const route = useRoute();
 
    const body = {
+      _version: route.query._version,
       query: 'site',
       select: {
          header: true

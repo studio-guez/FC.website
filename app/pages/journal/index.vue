@@ -54,6 +54,7 @@
 
 <script setup>
 	const route = useRoute();
+	const isPreview = computed(() => route.query.preview === '1');
 
 	const fetchKey = computed(() => {
 		return `journal-${route.fullPath.replace(route.hash, '')}`;
@@ -64,6 +65,7 @@
 		key: fetchKey.value,
 		body: computed(() => {
 			let queryStr = "";
+			const childrenMethod = isPreview.value ? 'childrenAndDrafts' : 'children';
 
 			if (route.query.category) {
 				queryStr += `.filterBy("categories", "*=", "${route.query.category}")`;
@@ -74,6 +76,7 @@
 			}
 
 			return {
+				_version: route.query._version,
 				query: 'site.find("journal")',
 				select: {
 					title: true,
@@ -95,7 +98,7 @@
 						}
 					},
 					children: {
-						query: 'page.children.filterBy("template", "article").sortBy("published", "desc")' + queryStr,
+						query: `page.${childrenMethod}.filterBy("template", "article").sortBy("published", "desc")` + queryStr,
 						select: {
 							title: true,
 							slug: true,

@@ -107,6 +107,7 @@
 			}
 
 			return {
+				_version: route.query._version,
 				query: 'site',
 				select: {
 					title: 'site.find("journal").title',
