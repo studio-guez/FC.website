@@ -81,6 +81,7 @@
 
 <script setup>
 	const route = useRoute();
+	const isPreview = computed(() => route.query.preview === '1');
 
 	const fetchKey = computed(() => {
 		return `journal-${route.fullPath.replace(route.hash, '')}`;
@@ -91,6 +92,7 @@
 		key: fetchKey.value,
 		body: computed(() => {
 			let queryStr = "";
+			const childrenMethod = isPreview.value ? 'childrenAndDrafts' : 'children';
 
 			if (route.query.author) {
 				queryStr += `.filterBy("author", "*=", "${route.query.author}")`;
@@ -131,7 +133,7 @@
 						}
 					},
 					children: {
-						query: 'site.find("journal").children.filterBy("template", "article").sortBy("published", "desc")' + queryStr,
+						query: `site.find("journal").${childrenMethod}.filterBy("template", "article").sortBy("published", "desc")` + queryStr,
 						select: {
 							title: true,
 							slug: true,

@@ -29,7 +29,8 @@
    const route = useRoute();
    const pathSegments = route.params.slug || [];
    const fullPageSlug = pathSegments.join('/');
-   const pageQuery = pathSegments.length ? `site.find('${fullPageSlug}')` : 'site';
+   const isPreview = route.query.preview === '1';
+   const pageQuery = pathSegments.length ? `site.${isPreview ? 'findPageOrDraft' : 'find'}('${fullPageSlug}')` : 'site';
    const layoutQuery = pathSegments.length ? 'page.sections.toLayouts' : 'site.sections.toLayouts';
 
    const baseBlockSelect = {
