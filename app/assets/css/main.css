@@ -551,11 +551,26 @@ a[href^="mailto:"] {
    margin-right: calc(var(--site-margin) * -1);
    position: relative;
    z-index: 100000;
+   overflow: hidden;
+}
+
+.banner-link {
+   display: block;
+   color: inherit;
+   text-decoration: none;
+}
+
+.banner-link:hover {
+   opacity: 0.85;
+}
+
+.banner-track {
    display: grid;
-   padding: 0 0.5rem;
    grid-template-columns: auto 67vw auto 67vw;
    column-gap: 2rem;
-   overflow-x: auto;
+   width: max-content;
+   padding: 0 0.5rem;
+   will-change: transform;
 }
 
 .banner-icons {
