@@ -30,9 +30,14 @@
 
          <!-- Banner -->
          <div v-if="block.type === 'banner'" class="banner mb-1" :style="{backgroundColor: block.color}">
-            <div class="banner-icons" v-html="block.icons"></div>
-            <div class="banner-text" v-html="block.text"></div>
+            <a :href="block.link" style="display: contents">
+               <div class="banner-icons" v-html="block.icons"></div>
+               <div class="banner-text" v-html="block.text"></div>
+               <div class="banner-icons" v-html="block.icons"></div>
+               <div class="banner-text" v-html="block.text"></div>
+            </a>
          </div>
+
 
          <!-- Subsections -->
           <section v-if="block.type === 'subsection'" class="subsection mb-1">

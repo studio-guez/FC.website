@@ -551,26 +551,32 @@ a[href^="mailto:"] {
    margin-right: calc(var(--site-margin) * -1);
    position: relative;
    z-index: 100000;
-   display: flex;
-   align-items: stretch;
+   display: grid;
+   padding: 0 0.5rem;
+   grid-template-columns: auto 67vw auto 67vw;
+   column-gap: 2rem;
+   overflow-x: auto;
 }
 
 .banner-icons {
-   display: flex;
-   padding: 0.5rem;
-   align-items: stretch;
+   display: grid;
+   column-gap: 0.5rem;
+   padding: 0.75rem 0;
+   grid-auto-flow: column;
+   grid-auto-columns: max-content;
+   height: 100%;
+   box-sizing: border-box;
 }
 
 .banner-icons svg {
-   height: auto;
-   align-self: stretch;
+   height: 100%;
+   width: auto;
+   display: block;
 }
 
 .banner-text {
    padding-top: 1rem;
    padding-bottom: 1rem;
-   width: 67vw;
-   flex-shrink: 0;
 }
 
 /* Journal */
