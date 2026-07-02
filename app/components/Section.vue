@@ -28,6 +28,12 @@
          <!-- Gallery -->
          <Gallery :block="block"></Gallery>
 
+         <!-- Banner -->
+         <div v-if="block.type === 'banner'" class="banner mb-1" :style="{backgroundColor: block.color}">
+            <div class="banner-icons" v-html="block.icons"></div>
+            <div class="banner-text" v-html="block.text"></div>
+         </div>
+
          <!-- Subsections -->
           <section v-if="block.type === 'subsection'" class="subsection mb-1">
             <SubSection :header="block.title[0]" :blocks="block.content"/>
@@ -50,4 +56,6 @@
    import Gallery from './Gallery.vue';
 
    const props = defineProps(['blocks']);
+
+   console.log(props);
 </script>

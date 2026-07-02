@@ -46,6 +46,7 @@ body.no-scroll {
 
 h2, .h2 {
    font-size: 4rem;
+   line-height: 1.15;
 }
 
 h3, .h3 {
@@ -542,6 +543,35 @@ a[href^="mailto:"] {
    height: auto;
 }
 
+/* Banner */
+
+.banner {
+   color: white;
+   margin-left: calc((5.5rem + var(--site-margin))* -1);
+   margin-right: calc(var(--site-margin) * -1);
+   position: relative;
+   z-index: 100000;
+   display: flex;
+   align-items: stretch;
+}
+
+.banner-icons {
+   display: flex;
+   padding: 0.5rem;
+   align-items: stretch;
+}
+
+.banner-icons svg {
+   height: auto;
+   align-self: stretch;
+}
+
+.banner-text {
+   padding-top: 1rem;
+   padding-bottom: 1rem;
+   width: 67vw;
+   flex-shrink: 0;
+}
 
 /* Journal */
 
