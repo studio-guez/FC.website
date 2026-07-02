@@ -29,14 +29,7 @@
          <Gallery :block="block"></Gallery>
 
          <!-- Banner -->
-         <div v-if="block.type === 'banner'" class="banner mb-1" :style="{backgroundColor: block.color}">
-            <a :href="block.link" style="display: contents">
-               <div class="banner-icons" v-html="block.icons"></div>
-               <div class="banner-text" v-html="block.text"></div>
-               <div class="banner-icons" v-html="block.icons"></div>
-               <div class="banner-text" v-html="block.text"></div>
-            </a>
-         </div>
+         <Banner v-if="block.type === 'banner'" :block="block" />
 
 
          <!-- Subsections -->
@@ -59,6 +52,7 @@
 <script setup lang="ts">
    import VideoPlayer from './VideoPlayer.vue';
    import Gallery from './Gallery.vue';
+   import Banner from './Banner.vue';
 
    const props = defineProps(['blocks']);
 
