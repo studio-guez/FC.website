@@ -55,6 +55,4 @@
    import Banner from './Banner.vue';
 
    const props = defineProps(['blocks']);
-
-   console.log(props);
 </script>
