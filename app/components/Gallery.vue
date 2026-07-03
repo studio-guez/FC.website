@@ -21,41 +21,35 @@
 </template>
 
 <script setup lang="ts">
-   import { onBeforeUnmount, onMounted, ref } from 'vue';
+   import { onMounted } from 'vue';
    import { useOverlayScrollbars } from "overlayscrollbars-vue";
-   import LightboxVue from "./Lightbox.vue";
 
    const props = defineProps(['block', 'lightbox']);
    const galleryStrip = useTemplateRef('gallery-strip');
    const galleryImages = useTemplateRef('gallery-images');
-   let getScrollbarInstance;
    const galleryId = 'gallery-' + props.block.id;
    const lightbox = useTemplateRef("lightbox");
    let currentImage = 0;
-
-   onMounted(() => {
-      const [initGalleryOverlayScrollbars, getGalleryOverlayScrollbarsInstance] =
-         useOverlayScrollbars({
-            defer: true,
-            options: {
-               overflow: {
-                  x: 'scroll',
-                  y: 'hidden',
-               },
-               scrollbars: {
-                  theme: 'gallery',
-                  clickScroll: true,
-               },
-            },
-         });
-
-      initGalleryOverlayScrollbars(galleryStrip.value);
-      getScrollbarInstance = getGalleryOverlayScrollbarsInstance
+   const [initGalleryOverlayScrollbars, getScrollbarInstance] = useOverlayScrollbars({
+      defer: true,
+      options: {
+         overflow: {
+            x: 'scroll',
+            y: 'hidden',
+         },
+         scrollbars: {
+            theme: 'gallery',
+            clickScroll: true,
+         },
+      },
    });
 
-   onBeforeUnmount(() => {
-      const scrollbarInstance = getScrollbarInstance();
-      if (scrollBarInstance) instance.destroy();
+   onMounted(() => {
+      if (galleryStrip.value === null) {
+         return;
+      }
+
+      initGalleryOverlayScrollbars(galleryStrip.value);
    });
 
    function openLightbox(images: any[], index: number, color: string) {

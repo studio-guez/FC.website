@@ -31,6 +31,15 @@
   });
 
   const scrollbarColor = data.value.result.color;
+  const [initBodyOverlayScrollbars] = useOverlayScrollbars({
+     defer: true,
+     options: {
+        scrollbars: {
+           theme: 'body',
+           clickScroll: true,
+        },
+     },
+  });
 
   onMounted(() => {
     // Show mobile navigation when scrolling up
@@ -47,19 +56,13 @@
 	}, false);
 
    // Init custom scrollbars
-      const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] =
-      useOverlayScrollbars({
-         defer: true,
-         options: {
-            scrollbars: {
-               theme: 'body',
-               clickScroll: true,
-            },
-         },
-      });
-
-      initBodyOverlayScrollbars(document.body);
+   initBodyOverlayScrollbars({
+      target: document.body,
+      cancel: {
+         body: null,
+      },
    });
+  });
 
 </script>
 
