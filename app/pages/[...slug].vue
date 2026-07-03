@@ -44,7 +44,7 @@
       titleText: 'block.content.title',
       text: 'block.content.text.permalinksToUrls.absoluteToRelativeUrls.formatText',
       icons: 'block.content.icons.permalinksToUrls.absoluteToRelativeUrls.formatText',
-      link: 'block.content.link.toUrl',
+      link: 'block.content.link.toFrontendUrl',
       image: 'block.content.image.toFile',
       images: {
          query: 'block.content.images.toFiles',
