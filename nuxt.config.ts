@@ -4,7 +4,18 @@ export default defineNuxtConfig({
   app: {
     rootTag: 'body',
     head: {
-      link: [{rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}]
+      link: [{rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}],
+      script: [{
+          src: 'https://www.googletagmanager.com/gtag/js?id=G-3B4K015HL3',
+          async: true
+        }, { innerHTML: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-3B4K015HL3');
+          `
+        }
+      ]
     }
   },
   vue: {
