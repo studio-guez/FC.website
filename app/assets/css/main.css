@@ -617,6 +617,13 @@ a[href^="mailto:"] {
    grid-column: 2/-1;
 }
 
+.journal-footer {
+   position: fixed;
+   text-align: right;
+   right: calc(var(--site-margin) + 1.5rem);
+   bottom: 1rem;
+}
+
 .tags + .tags {
    margin-top: 0.25rem;
 }
@@ -852,6 +859,14 @@ a[href^="mailto:"] {
    .article-cover {
       margin-top: 0.75rem;
    }
+
+   .journal-footer {
+      position: fixed;
+      text-align: left;
+      left: calc(var(--site-margin) + 5.5rem);
+      right: inherit;
+      bottom: 1rem;
+   }
 }
 
 @media (max-width: 920px) {
@@ -958,6 +973,10 @@ a[href^="mailto:"] {
 
    .journal-header-description {
       margin-bottom: 0.5rem;
+   }
+
+   .journal-footer {
+      display: none;
    }
 
    .article-meta.author {

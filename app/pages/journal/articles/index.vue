@@ -76,6 +76,9 @@
 				</article>
 			</li>
 		</ul>
+		<footer class="journal-footer" v-if="page?.link_label">
+			<div>⟵ <NuxtLink to="/journal">{{ page.link_label }}</NuxtLink></div>
+		</footer>
 	</main>
 </template>
 
@@ -111,6 +114,7 @@
 				query: 'site',
 				select: {
 					title: 'site.find("journal").title',
+					link_label: 'site.find("journal").link_label',
 					filters: {
 						query: 'kirby',
 						select: {
